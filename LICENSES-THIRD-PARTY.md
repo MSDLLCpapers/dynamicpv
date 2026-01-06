@@ -1,9 +1,9 @@
-dynacem uses third-party R packages which may be distributed under different
+dynamicpv uses third-party R packages which may be distributed under different
 licenses. We have listed all of these third party packages and their licenses
 below. However, the most up-to-date information can be found via inspecting
 the Imports field in the DESCRIPTION file.
 
-You must agree to the terms of these licenses, in addition to the dynacem
+You must agree to the terms of these licenses, in addition to the dynamicpv
 source code license, in order to use this software.
 
 --------------------------------------------------

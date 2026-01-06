@@ -1,9 +1,9 @@
 #  Copyright (c) 2025 Merck & Co., Inc., Rahway, NJ, USA and its affiliates.
 #  All rights reserved.
 #
-#  This file is part of the dynacem program.
+#  This file is part of the dynamicpv program.
 #
-#  dynacem is free software: you can redistribute it and/or modify
+#  dynamicpv is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
