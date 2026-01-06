@@ -40,8 +40,8 @@ pak::pak("MSDLLCpapers/dynamicpv")
 ```
 
 Note that the above does not install vignettes. Vignettes may be viewed
-on the [package website](https://msdllcpapers.github.io/dynamicpv) or by
-instead running the following.
+on the [package website](https://msdllcpapers.github.io/dynamicpv/) or
+by instead running the following.
 
 ``` r
 devtools::install_github("MSDLLCpapers/dynamicpv", build_vignettes=TRUE)

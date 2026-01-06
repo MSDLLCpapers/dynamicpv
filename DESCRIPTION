@@ -1,11 +1,11 @@
 Package: dynamicpv
-Title: Evaluates Present Values and Cost-Effectiveness With Dynamic Pricing And Uptake
+Title: Evaluates Present Values and Cost-Effectiveness with Dynamic Pricing and Uptake
 Version: 0.4.0
 Authors@R: c(
     person("Dominic", "Muston", , "dominic.muston@msd.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4876-7940")),
-      person("John", "Blischak", role = c("ctb"),
-             comment = c(ORCID = "0000-0003-2634-9879")),
+    person("John", "Blischak", role = c("ctb"),
+           comment = c(ORCID = "0000-0003-2634-9879")),
     person("Merck & Co., Inc., Rahway, NJ, USA and its affiliates", role = c("cph", "fnd"))
     )
 Description: Evaluates present values and cost-effectiveness with dynamic pricing and uptake.
@@ -15,6 +15,8 @@ BugReports: https://github.com/MSDLLCpapers/dynamicpv/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.1.0)
 Imports: 
     dplyr,
     readr,
@@ -32,7 +34,5 @@ Suggests:
     testthat (>= 3.0.0),
     usethis
 Config/testthat/edition: 3
-Depends: 
-    R (>= 3.5)
 LazyData: true
 VignetteBuilder: knitr

@@ -38,7 +38,7 @@ install.packages("devtools")
 pak::pak("MSDLLCpapers/dynamicpv")
 ```
 
-Note that the above does not install vignettes. Vignettes may be viewed on the [package website](https://msdllcpapers.github.io/dynamicpv) or by instead running the following.
+Note that the above does not install vignettes. Vignettes may be viewed on the [package website](https://msdllcpapers.github.io/dynamicpv/) or by instead running the following.
 
 ```{r instal2}
 #| eval: false

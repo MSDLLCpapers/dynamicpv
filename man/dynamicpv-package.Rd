@@ -4,7 +4,7 @@
 \name{dynamicpv-package}
 \alias{dynamicpv}
 \alias{dynamicpv-package}
-\title{dynamicpv: Evaluates Present Values and Cost-Effectiveness With Dynamic Pricing And Uptake}
+\title{dynamicpv: Evaluates Present Values and Cost-Effectiveness with Dynamic Pricing and Uptake}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
