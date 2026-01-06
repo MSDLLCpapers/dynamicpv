@@ -98,7 +98,7 @@ First, we derive a price index to handle the changing price of the
 resource underlying the cashflow. Then we derive the nominal discount
 rate, incorporating the general rate of price inflation in the economy.
 We then combine these inputs with
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
 to calculate the NPV.
 
 ``` r
@@ -163,7 +163,7 @@ sum(vt2 * cashflow * pindex)
   functions relatively easily, it is evident how calculations of NPV can
   quickly become complicated.
 - The
-  [`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+  [`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
   function can be used to calculate NPVs for arbitrary vectors of
   cashflows, at a given discount rate and a given underlying price
   index.

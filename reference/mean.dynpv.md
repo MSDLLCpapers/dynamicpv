@@ -2,7 +2,7 @@
 
 Mean of the Present Value per uptaking patient, by time at which the
 calculation is performed (`tzero` input to
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)).
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)).
 
 ## Usage
 
@@ -16,9 +16,9 @@ mean(x, ...)
 - x:
 
   Tibble of class "dynpv" created by
-  [`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+  [`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
   or
-  [`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+  [`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)
 
 - ...:
 
@@ -31,11 +31,11 @@ A number or tibble
 ## Details
 
 This is equal to
-[`total()`](https://MSDLLCpapers.github.io/dynacem/reference/total.md)
+[`total()`](https://MSDLLCpapers.github.io/dynamicpv/reference/total.md)
 divided by
-[`uptake()`](https://MSDLLCpapers.github.io/dynacem/reference/uptake.md).
+[`uptake()`](https://MSDLLCpapers.github.io/dynamicpv/reference/uptake.md).
 
 ## See also
 
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md),
-[`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md),
+[`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)

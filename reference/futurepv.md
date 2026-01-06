@@ -3,7 +3,7 @@
 Present value of a series of payoffs for a single given cohort, entering
 at given future time, allowing for dynamic pricing. This function is a
 wrapper for
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
 restricted to evaluation of a single cohort.
 
 ## Usage
@@ -57,7 +57,7 @@ A tibble of class "dynpv" with the following columns:
 
 ## See also
 
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
 
 ## Examples
 

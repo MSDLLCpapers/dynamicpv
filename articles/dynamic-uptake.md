@@ -14,7 +14,7 @@ events.
 This package is designed to be able to calculate presente values with
 dynamic uptake/multiple cohorts. This can be coupled with considerations
 of dynamic pricing, as covered in
-[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md).
+[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md).
 
 ## Using *dynamicpv*
 
@@ -25,7 +25,7 @@ library(dynamicpv)
 ```
 
 Let us work with the same cashflow as in
-[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md),
+[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md),
 but assume all costs/prices are constant in real terms. The discount
 rate is 3 % per year, real.
 
@@ -43,7 +43,7 @@ vt1 <- (1 + disc)^(-1 * (0:4))
 ### Non-dynamic uptake
 
 First let us consider non-dynamic uptake, as covered in
-[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md).
+[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md).
 
 | Time  | Cashflow 1 | Discount factor       | Product |
 |-------|------------|-----------------------|---------|
@@ -59,7 +59,7 @@ Calculation of NPV from a simple cashflow and given discount rate
 
 In this case, there is a single cashflow series starting at timestep 1.
 This time, we will use the `uptakes` argument for
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md) -
+[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md) -
 although this is unnecessary since its default is also 1.
 
 ``` r
@@ -73,7 +73,7 @@ total(pv1)
 ```
 
 The result is unchanged from the
-[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md),
+[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md),
 where we also showed the function could be verified with some simple
 vector arithmetic.
 
@@ -96,7 +96,7 @@ follows.
 Calculation of NPV from a simple cashflow and given discount rate
 
 With
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md),
+[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md),
 we just update the `uptakes` argument.
 
 ``` r
@@ -171,7 +171,7 @@ sum(checkpv)
 
 The package becomes most powerful when considering both dynamic uptake
 and dynamic pricing. A simple call to
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
 replaces what would be rather more complicated with base functions, even
 in this toy example.
 
@@ -206,10 +206,10 @@ average per patient.
   or the run-off of insurance claims. This can complicate calculations
   of NPV.
 - The
-  [`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+  [`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
   function can be used to calculate NPVs for arbitrary vectors of
   cashflows, at a given discount rate and a given expected uptake over
   time.
 - In this way, the function can accommodate both dynamic uptake and
   dynamic pricing, as seen in the
-  [`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md).
+  [`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md).

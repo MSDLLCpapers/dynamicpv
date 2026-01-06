@@ -43,9 +43,9 @@ package is to provide a simple tool to conduct calculations of present
 values that allow for dynamic pricing and dynamic uptake. This vignette
 aims to illustrate how computations may be performed. It is intended to
 be read after
-[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md)
+[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md)
 and
-[`vignette("dynamic-uptake")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-uptake.md).
+[`vignette("dynamic-uptake")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-uptake.md).
 A mathematical framework presented here formalizes what others have
 developed and applied,(Hoyle and Anderson 2010; Shafrin et al. 2024) and
 provides the technical basis of the calculations within the package.
@@ -88,7 +88,7 @@ within the time horizon \\T\\, namely:
 \\
 
 The
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
 function operationalizes this calculation with arguments:
 
 - `payoffs` \\= {p_k}\\
@@ -101,7 +101,7 @@ function operationalizes this calculation with arguments:
 The `tzero` argument is a time offset useful to be able to calculate
 present values into the future, which can be performed for single
 cohorts by
-[`dynamicpv::futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md).
+[`dynamicpv::futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md).
 
 ### Set-up
 
@@ -492,12 +492,12 @@ accumulated in each timestep, calculated as at time zero:
 - QALYs (*qaly*).
 
 The
-[`dynamicpv::get_dynfields()`](https://MSDLLCpapers.github.io/dynacem/reference/get_dynfields.md)
+[`dynamicpv::get_dynfields()`](https://MSDLLCpapers.github.io/dynamicpv/reference/get_dynfields.md)
 function extracts these parameters from the
 [heemod](https://cran.r-project.org/package=heemod) model object, and
 calculates ‘rolled-up’ values as at the start of each timestep rather
 than discounted to time zero. The rolled-up values are what
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
 requires.
 
 ``` r
@@ -841,10 +841,10 @@ The table above presents the cost-effectiveness results as of the date
 of calculation, 2025-09-01. However, it is interesting to explore how
 the ICER will change over time, given the expected evolution of prices.
 We use
-[`dynamicpv::futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+[`dynamicpv::futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)
 to calculate present values at future times. This function is a wrapper
 for
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md).
+[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md).
 This is the single cohort ICER (no dynamic uptake) but with dynamic
 pricing, so corresponds with Scenario 2 from earlier.
 
@@ -1012,7 +1012,7 @@ Enright, Daniel E., Emma G. van Duijnhoven, Daniel A. Ollendorf, and
 James D. Chambers. 2025. “Use of Health Technology Assessments in
 Specialty Drug Coverage Decisions by US Commercial Health Plans.”
 *Journal of Managed Care & Specialty Pharmacy* 31 (3): 289–95.
-<https://doi.org/10.18553/jmcp.2025.31.3.289>.
+<https://www.jmcp.org/doi/10.18553/jmcp.2025.31.3.289>.
 
 Espinosa, Oscar, Paul Rodríguez-Lesmes, Giancarlo Romano, Esteban
 Orozco, Sergio Basto, Diego Ávila, Lorena Mesa, and Hernán Enríquez.
@@ -1033,7 +1033,7 @@ United States.” *Value in Health* 28 (March): 742–50.
 Laube, Y., M. Serra-Burriel, C. C. E. G. Glaus, and K. N. Vokinger.
 2024. “Launch and Postlaunch Price Developments of New Drugs in the US,
 Germany, and Switzerland.” *JAMA Health Forum* 5 (11): e244461.
-<https://doi.org/10.1001/jamahealthforum.2024.446>.
+<https://doi.org/10.1001/jamahealthforum.2024.4461>.
 
 Lin, Ching-Hsuan, Jonathan D. Campbell, James Motyka, and Joshua T.
 Cohen. 2025. “US Drug Pricing Patterns Before Loss of Exclusivity.”

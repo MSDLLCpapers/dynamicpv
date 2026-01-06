@@ -33,5 +33,5 @@ S3 object of class "dynpv"
 
 ## See also
 
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md),
-[`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md),
+[`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)

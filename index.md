@@ -28,8 +28,8 @@ pak::pak("MSDLLCpapers/dynamicpv")
 ```
 
 Note that the above does not install vignettes. Vignettes may be viewed
-on the [package website](https://msdllcpapers.github.io/dynacem) or by
-instead running the following.
+on the [package website](https://msdllcpapers.github.io/dynamicpv/) or
+by instead running the following.
 
 ``` r
 devtools::install_github("MSDLLCpapers/dynamicpv", build_vignettes=TRUE)
@@ -56,7 +56,7 @@ There are four vignettes provided.
 1.  The [Dynamic
     Pricing](https://msdllcpapers.github.io/dynamicpv/articles/dynamic-pricing.html)
     vignette
-    ([`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md))
+    ([`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md))
     describes how present values may be calculated in the package from a
     payoff vector, allowing for the prices of the resources costed to be
     dynamic.
@@ -64,7 +64,7 @@ There are four vignettes provided.
 2.  The [Dynamic
     Uptake](https://msdllcpapers.github.io/dynamicpv/articles/dynamic-uptake.html)
     vignette
-    ([`vignette("dynamic-uptake")`](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-uptake.md))
+    ([`vignette("dynamic-uptake")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-uptake.md))
     explores further how present values can be derived allowing for
     dynamic uptake. This is in contrast to the non-dynamic approach of
     calculating a present value for a single cohort of patients. This is
@@ -86,7 +86,7 @@ There are four vignettes provided.
 
 4.  The [Budget Impact
     Applications](https://msdllcpapers.github.io/dynamicpv/articles/budget-impact-applications.html)
-    ([`vignette("budget-impact-applications")`](https://MSDLLCpapers.github.io/dynacem/articles/budget-impact-applications.md))
+    ([`vignette("budget-impact-applications")`](https://MSDLLCpapers.github.io/dynamicpv/articles/budget-impact-applications.md))
     vignette describes how, given a static cost-effectiveness model
     (single cohort, prices constant in real terms) and dynamic uptake, a
     budget impact can be readily calculated. The calculations are

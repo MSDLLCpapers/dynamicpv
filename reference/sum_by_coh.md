@@ -2,7 +2,7 @@
 
 Calculates the sum of the Present Value by uptake cohort (`j`) and time
 at which the calculation is performed (`tzero` input to
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md))
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md))
 
 ## Usage
 
@@ -15,9 +15,9 @@ sum_by_coh(df)
 - df:
 
   Tibble of class "dynpv" created by
-  [`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+  [`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
   or
-  [`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+  [`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)
 
 ## Value
 
@@ -39,5 +39,5 @@ This method returns \\\sum\_{k=1}^{T-j+1} PV(j,k,l)\\ for each value of
 
 ## See also
 
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md),
-[`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md),
+[`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)

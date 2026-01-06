@@ -3,10 +3,10 @@
 ### All vignettes
 
 - [Budget Impact
-  Applications](https://MSDLLCpapers.github.io/dynacem/articles/budget-impact-applications.md):
+  Applications](https://MSDLLCpapers.github.io/dynamicpv/articles/budget-impact-applications.md):
 - [Cost-Effectiveness
-  Applications](https://MSDLLCpapers.github.io/dynacem/articles/cost-effectiveness-applications.md):
+  Applications](https://MSDLLCpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.md):
 - [Dynamic
-  Pricing](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-pricing.md):
+  Pricing](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md):
 - [Dynamic
-  Uptake](https://MSDLLCpapers.github.io/dynacem/articles/dynamic-uptake.md):
+  Uptake](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-uptake.md):

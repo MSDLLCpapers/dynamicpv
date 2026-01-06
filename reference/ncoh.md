@@ -2,7 +2,7 @@
 
 Number of cohorts of uptaking patients, calculated as the length of the
 `uptakes` input to
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
 
 ## Usage
 
@@ -15,9 +15,9 @@ ncoh(df)
 - df:
 
   Tibble of class "dynpv" created by
-  [`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+  [`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
   or
-  [`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+  [`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)
 
 ## Value
 
@@ -25,5 +25,5 @@ A number
 
 ## See also
 
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md),
-[`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md),
+[`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)

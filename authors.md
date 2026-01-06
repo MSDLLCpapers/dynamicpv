@@ -17,11 +17,11 @@ Source:
 [`DESCRIPTION`](https://github.com/MSDLLCpapers/dynamicpv/blob/main/DESCRIPTION)
 
 Muston D (2026). *dynamicpv: Evaluates Present Values and
-Cost-Effectiveness With Dynamic Pricing And Uptake*. R package version
+Cost-Effectiveness with Dynamic Pricing and Uptake*. R package version
 0.4.0, <https://MSDLLCpapers.github.io/dynamicpv/>.
 
     @Manual{,
-      title = {dynamicpv: Evaluates Present Values and Cost-Effectiveness With Dynamic Pricing And Uptake},
+      title = {dynamicpv: Evaluates Present Values and Cost-Effectiveness with Dynamic Pricing and Uptake},
       author = {Dominic Muston},
       year = {2026},
       note = {R package version 0.4.0},

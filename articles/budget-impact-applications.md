@@ -13,7 +13,7 @@ library(dynamicpv)
 
 Then let us suppose we have the same cost-effectiveness model and
 variables as set-up in
-[`vignette("cost-effectiveness-applications")`](https://MSDLLCpapers.github.io/dynacem/articles/cost-effectiveness-applications.md).
+[`vignette("cost-effectiveness-applications")`](https://MSDLLCpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.md).
 
 ## Methods
 
@@ -279,5 +279,5 @@ Budget Impact model results with and without dynamic drug pricing
 - Further stratification of the results, by intervention received, time
   period, cost component etc may reveal further insights. These are
   possible from the results calculated and presented by
-  [`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+  [`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
   but not shown in this simple illustration.

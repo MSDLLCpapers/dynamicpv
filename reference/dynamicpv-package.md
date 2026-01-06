@@ -1,4 +1,4 @@
-# dynamicpv: Evaluates Present Values and Cost-Effectiveness With Dynamic Pricing And Uptake
+# dynamicpv: Evaluates Present Values and Cost-Effectiveness with Dynamic Pricing and Uptake
 
 Evaluates present values and cost-effectiveness with dynamic pricing and
 uptake.
@@ -19,6 +19,9 @@ Useful links:
 ([ORCID](https://orcid.org/0000-0003-4876-7940))
 
 Other contributors:
+
+- John Blischak ([ORCID](https://orcid.org/0000-0003-2634-9879))
+  \[contributor\]
 
 - Merck & Co., Inc., Rahway, NJ, USA and its affiliates \[copyright
   holder, funder\]

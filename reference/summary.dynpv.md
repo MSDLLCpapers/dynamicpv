@@ -14,9 +14,9 @@ summary(object, ...)
 - object:
 
   Tibble of class "dynpv" created by
-  [`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md)
+  [`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
   or
-  [`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+  [`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)
 
 - ...:
 
@@ -27,21 +27,21 @@ summary(object, ...)
 A list of class "dynpv_summary" with the following elements:
 
 - `ncoh`: Number of cohorts of uptaking patients, from
-  [`ncoh()`](https://MSDLLCpapers.github.io/dynacem/reference/ncoh.md)
+  [`ncoh()`](https://MSDLLCpapers.github.io/dynamicpv/reference/ncoh.md)
 
 - `ntimes`: Number of times at which present value calculations are
   performed, from
-  [`ntimes()`](https://MSDLLCpapers.github.io/dynacem/reference/ntimes.md)
+  [`ntimes()`](https://MSDLLCpapers.github.io/dynamicpv/reference/ntimes.md)
 
 - `uptake`: Total number of uptaking patients, from
-  [`uptake()`](https://MSDLLCpapers.github.io/dynacem/reference/uptake.md)
+  [`uptake()`](https://MSDLLCpapers.github.io/dynamicpv/reference/uptake.md)
 
 - `sum_by_coh`: Present value for each uptake cohort and calculation
   time, from
-  [`sum_by_coh()`](https://MSDLLCpapers.github.io/dynacem/reference/sum_by_coh.md)
+  [`sum_by_coh()`](https://MSDLLCpapers.github.io/dynamicpv/reference/sum_by_coh.md)
 
 - `total`: Total present value, from
-  [`total()`](https://MSDLLCpapers.github.io/dynacem/reference/total.md)
+  [`total()`](https://MSDLLCpapers.github.io/dynamicpv/reference/total.md)
 
 - `mean`: Mean present value per uptaking patient, from
   [`mean()`](https://rdrr.io/r/base/mean.html), equal to
@@ -49,5 +49,5 @@ A list of class "dynpv_summary" with the following elements:
 
 ## See also
 
-[`dynpv()`](https://MSDLLCpapers.github.io/dynacem/reference/dynpv.md),
-[`futurepv()`](https://MSDLLCpapers.github.io/dynacem/reference/futurepv.md)
+[`dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md),
+[`futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md)
