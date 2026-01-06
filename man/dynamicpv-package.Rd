@@ -24,6 +24,7 @@ Useful links:
 
 Other contributors:
 \itemize{
+  \item John Blischak (\href{https://orcid.org/0000-0003-2634-9879}{ORCID}) [contributor]
   \item Merck & Co., Inc., Rahway, NJ, USA and its affiliates [copyright holder, funder]
 }
 
