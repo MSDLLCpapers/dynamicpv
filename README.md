@@ -15,14 +15,16 @@ coverage](https://codecov.io/gh/MSDLLCpapers/dynamicpv/graph/badge.svg)](https:/
 The goal of ‘dynamicpv’ is to provide a simple way to calculate (net)
 present values and outputs from health economic models (especially
 cost-effectiveness and budget impact) in discrete time that reflect
-dynamic pricing and dynamic uptake. Dynamic pricing is also known as
-life cycle pricing; dynamic uptake is also known as multiple or stacked
-cohorts, or dynamic disease prevalence. Shafrin (2024)
-<doi:10.1515/fhep-2024-0014> provides an explanation of dynamic value
-elements, in the context of Generalized Cost Effectiveness Analysis, and
-Puls (2024) <doi:10.1016/j.jval.2024.03.006> reviews challenges of
-incorporating such dynamic value elements. This package aims to reduce
-those challenges.
+dynamic pricing and dynamic uptake.
+
+Dynamic pricing is also known as life cycle pricing; dynamic uptake is
+also known as multiple or stacked cohorts, or dynamic disease
+prevalence. [Shafrin (2024)](https://doi.org/10.1515/fhep-2024-0014)
+provides an explanation of dynamic value elements, in the context of
+Generalized Cost Effectiveness Analysis, and [Puls
+(2024)](https://doi.org/10.1016/j.jval.2024.03.006) reviews challenges
+of incorporating such dynamic value elements. This package aims to
+reduce those challenges.
 
 Through the
 [dynpv()](https://msdllcpapers.github.io/dynamicpv/reference/dynpv.html)
@@ -39,14 +41,8 @@ The package should shortly be available on
 from here is simplest, once available.
 
 ``` r
+# CRAN installation - when available
 install.packages("dynamicpv")
-#> Installing package into '/private/var/folders/6y/njqz7c9j79q_b0vdms017th40000gn/T/RtmpzDSE2G/temp_libpath3fc15cd1f1cd'
-#> (as 'lib' is unspecified)
-#> Warning: package 'dynamicpv' is not available for this version of R
-#> 
-#> A version of this package for your version of R might be available elsewhere,
-#> see the ideas at
-#> https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages
 ```
 
 You can install the development version of *dynamicpv* from

@@ -138,7 +138,7 @@ pv3 <- dynpv(payoffs=cashflow, prices=pindex, discrate=nomdisc)
 summary(pv3)
 ```
 
-With this dynamic pricing change, the NPV has reduced by `r total(pv3) - total(pv2)`, from `r total(pv2)` to `r total(pv3)`. The corresponding base R code is shown below.
+With this dynamic pricing change, the NPV has reduced by `r total(pv2) - total(pv3)`, from `r total(pv2)` to `r total(pv3)`. The corresponding base R code is shown below.
 
 ```{r calc3b}
 # Compare with more base calculations
@@ -166,9 +166,8 @@ Suppose we have one new patient each year, and we wish to calculate the total NP
 With `dynamicpv::dynpv()`, we just update the `uptakes` argument.
 
 ```{r uptake2}
-# Uptake vector is simple
+# Uptake vector is (1, 1, 1, 1, 1)
 uptakes1 <- rep(1, 5)
-uptakes1
 
 # NPV calculation
 pv4 <- dynpv(payoffs=cashflow, uptakes=uptakes1, discrate=disc)
@@ -189,7 +188,7 @@ In general, uptake will not be constant in time. Due to factors such as varying 
 For example, suppose the number of patients receiving treatment increases by one each year. The weighting given to cashflow 1 would then be $1/(1+2+3+4+5)=6.67$ \%.
 
 ```{r uptake3}
-# Uptake vector is simple
+# Uptake vector is (1, 2, 3, 4, 5)
 uptakes2 <- 1:5
 
 # NPV calculation
@@ -219,6 +218,9 @@ pv6 <- dynpv(payoffs=cashflow, uptakes=uptakes2, prices=pindex, discrate=nomdisc
 
 # Calculation results
 pv6
+
+# Total present value = sum of the pv column
+sum(pv6$pv)
 
 summary(pv6)
 ```
