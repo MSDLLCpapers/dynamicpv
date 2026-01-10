@@ -1,3 +1,9 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Extended the description text in DESCRIPTION
+* Revised the vignettes
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
