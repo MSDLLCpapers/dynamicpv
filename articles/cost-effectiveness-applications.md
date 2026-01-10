@@ -1,138 +1,25 @@
 # Cost-Effectiveness Applications
 
-### Introduction
+## Introduction
 
-Single cohort cost-effectiveness models are routinely used in the
-decision making of Health Technology Assessment (HTA) bodies, and are
-widely published in the scientific literature.(Espinosa et al. 2024;
-Enright et al. 2025; Do et al. 2021) Despite their utility, such models
-have been criticised as overly limited in scope, omitting important
-elements of value(Breslau et al. 2023; Shafrin et al. 2024)\] and health
-equity(Avanceña and Prosser 2021). Anticipated pricing dynamics (life
-cycle drug pricing) are routinely ignored, meaning that the long run
-opportunity cost for drugs may be misrepresented,(Neumann et al. 2022)
-and single cohort modeling is criticized as not tailored to properly
-inform decision-making that will impact future cohorts of patients(Hoyle
-and Anderson 2010). Case studies have shown how dynamic (or ‘life
-cycle’) pricing and multi-cohort modeling can have substantial effects
-on reported Incremental Cost-Effectiveness Ratio (ICER) values and that,
-without accounting for these effects, ICERs are overstated and
-unrepresentative.(Schöttler et al. 2023; Whittington et al. 2025; Moreno
-and Ray 2016)
-
-In a recent review, Puls et al listed four challenges in modeling life
-cycle drug pricing and offered some proposals.(Puls et al. 2024) Pricing
-changes before Loss of Exclusivity (LoE) events are ‘usually small’ but
-local pricing data can be informative, whereas after LoE, changes to
-pricing ‘should be informed by country-specific and historical estimates
-of average price reductions’, such as may be found in recent
-reviews.(Lin et al. 2025; Jofre-Bonet et al. 2025; Serra-Burriel et al.
-2024; Laube et al. 2024) Following earlier recommendations by by Hoyle
-and Anderson, cost-effectiveness evaluations should include future
-incident cohorts in addition to the present, prevalent cohort,(Hoyle and
-Anderson 2010) though assumptions may need to be simplified to
-facilitate calculation. Reporting should include individual and multiple
-cohorts, assuming uniform or utilization-informed weightings.(Puls et
-al. 2024)
-
-There are now a growing number of publications in which multi-cohort
-cost-effectiveness evaluations with life cycle pricing have been
-presented.(Puls et al. 2024; Schöttler et al. 2023; Whittington et al.
-2025; Shafrin et al. 2024; Moreno and Ray 2016) The purpose of this R
-package is to provide a simple tool to conduct calculations of present
-values that allow for dynamic pricing and dynamic uptake. This vignette
-aims to illustrate how computations may be performed. It is intended to
-be read after
-[`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md)
-and
-[`vignette("dynamic-uptake")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-uptake.md).
-A mathematical framework presented here formalizes what others have
-developed and applied,(Hoyle and Anderson 2010; Shafrin et al. 2024) and
-provides the technical basis of the calculations within the package.
-
-### Mathematical framework
-
-Let us partition time as follows. Suppose \\j=1, ..., T\\ indexes the
-time at which the patient begins treatment (with either the new
-intervention of Standard of Care, SoC), where \\T\\ is the time horizon
-of the decision-maker. Suppose \\k=1, ..., T\\ indexes time since
-initiating treatment.
-
-This can be illustrated through an example. Suppose then we are
-considering a cashflow in timestep 3. This will comprise:
-
-- patients who are in the third timestep of treatment that began in
-  timestep 1, \\(j,k) = (1, 3)\\;
-- patients who are in the second timestep of treatment that began in
-  timestep 2, \\(j,k) = (2, 2)\\; and
-- patients who are in the first timestep of treatment that began in
-  timestep 3, \\(j,k) = (3, 1)\\.
-
-In general, \\t=j+k-1\\, and we are interested in \\t=1,...,T\\.
-
-The Present Value of a cashflow \\p_k\\ for the \\u_j\\ patients who
-began treatment at time \\j\\ and who are in their \\k\\th timestep of
-treatment is as follows
-
-\\ PV(j,k) = u_j \cdot p_k \cdot R\_{j+k-1} \cdot (1+i)^{2-j-k} \\
-
-where \\i\\ is the risk-free discount rate per timestep, and \\p_k\\ is
-the cashflow amount in today’s money, and \\p_k \cdot R\_{j+k-1}\\ is
-the nominal amount of the cashflow at the time it is incurred.
-
-The total present value is therefore the sum over all \\j\\ and \\k\\
-within the time horizon \\T\\, namely:
-
-\\ TPV = \sum\_{j=1}^{T} \sum\_{k=1}^{T-j+1} PV(j, k) = \sum\_{j=1}^{T}
-\sum\_{k=1}^{T-j+1} u_j \cdot p_k \cdot R\_{j+k-1} \cdot (1+i)^{2-j-k}
-\\
-
-The
-[`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md)
-function operationalizes this calculation with arguments:
-
-- `payoffs` \\= {p_k}\\
-- `uptakes` \\= {u_j}\\
-- `horizon` \\= T\\, defaulting to the length of `payoffs`
-- `prices` \\= {R_t}\\, where \\t=j+k-1+t_0\\
-- `discrate` \\= i\\
-- `tzero` \\= t_0\\, defaulting to zero
-
-The `tzero` argument is a time offset useful to be able to calculate
-present values into the future, which can be performed for single
-cohorts by
-[`dynamicpv::futurepv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/futurepv.md).
-
-### Set-up
-
-First we load the packages necessary for this vignette.
-
-``` r
-library(dplyr)
-library(ggplot2)
-library(lubridate)
-library(flexsurv)
-library(heemod)
-library(tidyr)
-library(dynamicpv)
-```
-
-### Assumptions
-
-Before we start, we need to outline our assumptions. These concern:
+This vignette outlines how to evaluate a cost-effectiveness model in a
+manner that allows for dynamic pricing and dynamic uptake. Let us
+consider in turn:
 
 - the decision problem we are modeling through a cost-effectiveness
   analysis
 - dynamic patient uptake
 - dynamic pricing
 
-#### Decision problem we are modeling
+## Methods and Assumptions
 
 We wish to evaluate the cost-effectiveness, measured as incremental cost
 per QALY, of a new intervention compared to the standard of care (SoC).
 The model is a partitioned survival analysis typical in oncology with
 three health states: progression-free (PF), progressive disease (PD) and
-death, with additional assumptions as follows:
+death, with additional assumptions as follows.
+
+### General assumptions
 
 - The time horizon is 20 years, a timestep is 1 week, discounting is at
   3% per year, with an effective date of calculation is 2025-06-01.
@@ -157,6 +44,56 @@ death, with additional assumptions as follows:
   progression. Subsequent treatment costs are \$1200 and \$300 per week
   per patient while in the PD state for SoC and new intervention
   patients respectively.
+
+### Dynamic pricing
+
+Let us suppose the following assumptions concerning pricing:
+
+- Costs are assumed to increases in line with general inflation (2.5%
+  per year), except for effects on drug acquisition costs due to LoEs.
+- The date of calculation is 2025-09-01.
+- The LoE for the SoC is assumed to occur first, at 2028-01-01, after
+  which there is anticipated to be a 70% reduction in prices over one
+  year.
+- The new intervention has an LoE occuring three years later, at
+  2031-01-01, after which there would be a 50% reduction in prices over
+  one year.
+
+### Dynamic uptake
+
+Let us suppose the following assumptions concerning patient uptake. The
+aim here is to estimate the incidence of patients for whom the decision
+problem applies, i.e. the patients who would receive the new
+intervention, were it made available. This will be a function of, but
+not the same as, disease incidence or prevalence. We assume:
+
+- Only newly incident patients with the cancer being modeled would be
+  eligible for the new treatment. Existing/prevalent patients with the
+  condition would not be eligible.
+- The disease incidence is 1 patient per week.
+- Among these patients, were the new intervention to be made available,
+  uptake of the new intervention would be expected to rise linearly from
+  0% to 100% after 2 years.
+
+In this way, uptake would be gradually increasing with time, accounting
+for disease epidemiology and the share of patients who receive the new
+intervention.
+
+## Implementation
+
+### Set-up
+
+First we load the packages necessary for this vignette.
+
+``` r
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(flexsurv)
+library(heemod)
+library(tidyr)
+library(dynamicpv)
+```
 
 We code the time constants, time horizon, discount rates and inflation
 rates first.
@@ -184,7 +121,9 @@ nomdisc_year <- (1+disc_year)*(1+infl_year) - 1
 nomdisc_cycle <- (1+nomdisc_year)^(cycle_years) - 1 # Per cycle
 ```
 
-This model may then be coded in
+### Cost-effectiveness model
+
+The cost-effectiveness model may then be coded in
 [heemod](https://cran.r-project.org/package=heemod) as follows.
 
 ``` r
@@ -344,21 +283,9 @@ heemodel <- heemod::run_model(
 )
 ```
 
-#### Dynamic pricing
+### Dynamic pricing
 
-Let us suppose the following assumptions concerning pricing:
-
-- Costs are assumed to increases in line with general inflation (2.5%
-  per year), except for effects on drug acquisition costs due to LoEs.
-- The date of calculation is 2025-09-01.
-- The LoE for the SoC is assumed to occur first, at 2028-01-01, after
-  which there is anticipated to be a 70% reduction in prices over one
-  year.
-- The new intervention has an LoE occuring three years later, at
-  2031-01-01, after which there would be a 50% reduction in prices over
-  one year.
-
-The assumptions can be codified as follows.
+The dynamic pricing assumptions can be codified as follows.
 
 ``` r
 # Dates
@@ -407,24 +334,9 @@ prices_dyn_soc <- pricetib$dyn_soc
 prices_dyn_new <- pricetib$dyn_new
 ```
 
-#### Dynamic patient uptake
+### Dynamic uptake
 
-Let us suppose the following assumptions concerning patient uptake. The
-aim here is to estimate the incidence of patients for whom the decision
-problem applies, i.e. the patients who would receive the new
-intervention, were it made available.
-
-- Only newly incident patients with the cancer being modeled would be
-  eligible for the new treatment. Existing/prevalent patients with the
-  condition would not be eligible.
-- The disease incidence is 1 patient per week.
-- Among these patients, were the new intervention to be made available,
-  uptake of the new intervention would be expected to rise linearly from
-  0% to 100% after 2 years.
-
-In this way, uptake would be gradually increasing with time, accounting
-for disease epidemiology and the share of patients who receive the new
-intervention. The assumptions can be codified as follows.
+The dynamic uptake assumptions can be codified as follows.
 
 ``` r
 # Time for uptake to occur
@@ -439,9 +351,9 @@ share_multi <- c((1:uptake_weeks)/uptake_weeks, rep(1, Ncycles-uptake_weeks))
 uptake_multi <- rep(1, Ncycles) * share_multi
 ```
 
-### Using *dynamicpv*
+## Results
 
-#### Without dynamic pricing or dynamic uptake
+### Without dynamic pricing or dynamic uptake
 
 The conventional cost-effectiveness model is static.
 
@@ -548,7 +460,7 @@ head(hemout_new)
 #> #   model_years <dbl>, cost_nondaq <dbl>, cost_nondaq_rup <dbl>
 ```
 
-#### Scenario 1: No dynamic uptake or pricing
+### Scenario 1: No dynamic uptake or pricing
 
 With non-dynamic uptake, we use `uptakes`=`uptake_single`=1. Drug
 acquisition costs are constant in real terms (`prices=prices_static`)
@@ -614,10 +526,32 @@ s1_new_qaly <- dynamicpv::dynpv(
     discrate = disc_cycle
     )
 
-# Incremental costs, QALYs, and ICER
-s1_icost <- total(s1_new_cost) - total(s1_soc_cost)
-s1_iqaly <- total(s1_new_qaly) - total(s1_soc_qaly)
-s1_icer <- s1_icost / s1_iqaly
+# Incremental cost
+s1_icost <- s1_new_cost - s1_soc_cost
+
+summary(s1_icost)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           117033.5 
+#>      Mean present value:            Inf
+
+# Incremental QALY
+s1_iqaly <- s1_new_qaly - s1_soc_qaly
+
+summary(s1_iqaly)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           0.9255249 
+#>      Mean present value:            Inf
+
+# ICER
+s1_icer <- total(s1_icost) / total(s1_iqaly)
+s1_icer
+#> [1] 126451
 ```
 
 These results show that the new intervention is associated with
@@ -626,7 +560,7 @@ These results show that the new intervention is associated with
 incremental QALYs. The cumulative ICER (incremental cost per QALY) is
 \$126,451 per QALY at the 20 year time horizon.
 
-#### Scenario 2: Dynamic pricing, no dynamic uptake
+### Scenario 2: Dynamic pricing, no dynamic uptake
 
 The costs of drug acquisition in each arm differ in Scenario 2 through
 applying the relevant dynamic price index (`prices_dyn_soc` and
@@ -669,17 +603,39 @@ s2_new_cost <- s2_new_daqcost + s2_new_othcost
 # New intervention, QALYs are unchanged
 s2_new_qaly <- s1_new_qaly
 
-# Incrementals
-s2_icost <- total(s2_new_cost) - total(s2_soc_cost)
-s2_iqaly <- total(s2_new_qaly) - total(s2_soc_qaly)
-s2_icer <- s2_icost / s2_iqaly
+# Incremental cost
+s2_icost <- s2_new_cost - s2_soc_cost
+
+summary(s2_icost)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           114820 
+#>      Mean present value:            Inf
+
+# Incremental QALY
+s2_iqaly <- s2_new_qaly - s2_soc_qaly
+
+summary(s2_iqaly)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           0.9255249 
+#>      Mean present value:            Inf
+
+# ICER
+s2_icer <- total(s2_icost) / total(s2_iqaly)
+s2_icer
+#> [1] 124059.3
 ```
 
 Under scenario 2, the new intervention has an incremental
 cost-effectiveness of \$124,059 per QALY (incremental costs of
 \$114,820, incremental QALYs of 0.926).
 
-#### Scenario 3: Dynamic uptake, not dynamic pricing
+### Scenario 3: Dynamic uptake, not dynamic pricing
 
 The calculation for Scenario 3 is the same as for Scenario 1 except for
 dynamic uptake, which is handled by setting `uptakes = uptake_multi`.
@@ -739,10 +695,32 @@ s3_new_qaly <- dynamicpv::dynpv(
     discrate = disc_cycle
     )
 
-# Incrementals
-s3_icost <- total(s3_new_cost) - total(s3_soc_cost)
-s3_iqaly <- total(s3_new_qaly) - total(s3_soc_qaly)
-s3_icer <- s3_icost / s3_iqaly
+# Incremental costs
+s3_icost <- s3_new_cost - s3_soc_cost
+
+summary(s3_icost)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           78010854 
+#>      Mean present value:            Inf
+
+# Incremental QALYs
+s3_iqaly <- s3_new_qaly - s3_soc_qaly
+
+summary(s3_iqaly)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           520.8296 
+#>      Mean present value:            Inf
+
+# ICER
+s3_icer <- total(s3_icost) / total(s3_iqaly)
+s3_icer
+#> [1] 149781.9
 ```
 
 Under scenario 3, the new intervention has an incremental
@@ -750,7 +728,7 @@ cost-effectiveness of \$149,782 per QALY (incremental costs of
 \$78,010,854, incremental QALYs of 521 from a cohort comprising 992
 patients).
 
-#### Scenario 4: Dynamic pricing and uptake
+### Scenario 4: Dynamic pricing and uptake
 
 The costs of drug acquisition in each arm differ in Scenario 4 from
 Scenario 3 through applying the relevant dynamic price index
@@ -792,10 +770,32 @@ s4_new_cost <- s4_new_daqcost + s4_new_othcost
 # New intervention, QALYs
 s4_new_qaly <- s3_new_qaly
 
-# Incrementals
-s4_icost <- total(s4_new_cost) - total(s4_soc_cost)
-s4_iqaly <- total(s4_new_qaly) - total(s4_soc_qaly)
-s4_icer <- s4_icost / s4_iqaly
+# Incremental costs
+s4_icost <- s4_new_cost - s4_soc_cost
+
+summary(s4_icost)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           49255066 
+#>      Mean present value:            Inf
+
+# Incremental QALYs
+s4_iqaly <- s4_new_qaly - s4_soc_qaly
+
+summary(s4_iqaly)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             1044 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           520.8296 
+#>      Mean present value:            Inf
+
+# ICER
+s4_icer <- total(s4_icost) / total(s4_iqaly)
+s4_icer
+#> [1] 94570.4
 ```
 
 Under scenario 4, the new intervention has an incremental
@@ -803,7 +803,7 @@ cost-effectiveness of \$94,570 per QALY (incremental costs of
 \$49,255,066, incremental QALYs of 521 from a cohort comprising 992
 patients).
 
-#### Summary of results
+### Summary of results
 
 Total costs and QALYs for each scenario are summarized in the table
 below. The results above are skewed by the fact that some scenarios
@@ -835,7 +835,7 @@ allows easier comparison between the scenarios.
 
 Cost-effectiveness model results by scenario
 
-### Future single cohort ICER
+## Future single cohort ICER
 
 The table above presents the cost-effectiveness results as of the date
 of calculation, 2025-09-01. However, it is interesting to explore how
@@ -949,7 +949,7 @@ ggplot(ds,
 
 ![](cost-effectiveness-applications_files/figure-html/calc_future-1.png)
 
-### Discussion
+## Discussion
 
 The findings for this example model are as follows:
 
@@ -958,7 +958,7 @@ The findings for this example model are as follows:
   Scenario 1 assumed no increases in drug acquisition costs, but
   inflationary increases in other costs. Scenario 2 additionally assumed
   drug prices of the new intervention and SoC comparator would be eroded
-  due to losses of exclusivity. This has a material impact on costs per
+  due to losses of exclusivity. This has a modest impact on costs per
   patient of the new intervention (reducing from \$194,157 to
   \$191,248). Accordingly the ICER reduces from \$126,451 to \$124,059
   per QALY.
@@ -972,7 +972,7 @@ The findings for this example model are as follows:
   less. The incremental costs per patient reduced from \$194,157 in
   scenario 1 to \$130,380 in scenario 3, whereas the incremental QALYs
   reduced from 2.08 to 1.319 per patient. Overall, the ICER increased
-  slightly from \$126,451 to \$149,782 per QALY.
+  from \$126,451 to \$149,782 per QALY.
 
 - The effects of dynamic pricing and dynamic uptake are extremely
   synergistic. Scenario 4 illustrates the effects of both dynamic
@@ -989,92 +989,3 @@ The findings for this example model are as follows:
   the new treatment, which occurs later. This reduces the ICER
   significantly as the LoE approaches. Thereafter, the ICER is constant
   in real terms (but increasing with price inflation in nominal terms).
-
-## References
-
-Avanceña, Anton L. V., and Lisa A. Prosser. 2021. “Examining Equity
-Effects of Health Interventions in Cost-Effectiveness Analysis: A
-Systematic Review.” *Value in Health* 24 (1): 136–43.
-<https://doi.org/10.1016/j.jval.2020.10.010>.
-
-Breslau, Rachel Milstein, Joshua T. Cohen, Jose Diaz, Bill Malcolm, and
-Peter J. Neumann. 2023. “A Review of HTA Guidelines on Societal and
-Novel Value Elements.” *International Journal of Technology Assessment
-in Health Care* 39 (1): e31.
-<https://doi.org/10.1017/S026646232300017X>.
-
-Do, Lauren A, Patricia G Synnott, Siyu Ma, and Daniel A Ollendorf. 2021.
-“Bridging the Gap: Aligning Economic Research with Disease Burden.” *BMJ
-Global Health* 6 (6): e005673.
-<https://doi.org/10.1136/bmjgh-2021-005673>.
-
-Enright, Daniel E., Emma G. van Duijnhoven, Daniel A. Ollendorf, and
-James D. Chambers. 2025. “Use of Health Technology Assessments in
-Specialty Drug Coverage Decisions by US Commercial Health Plans.”
-*Journal of Managed Care & Specialty Pharmacy* 31 (3): 289–95.
-<https://www.jmcp.org/doi/10.18553/jmcp.2025.31.3.289>.
-
-Espinosa, Oscar, Paul Rodríguez-Lesmes, Giancarlo Romano, Esteban
-Orozco, Sergio Basto, Diego Ávila, Lorena Mesa, and Hernán Enríquez.
-2024. “Use of Cost-Effectiveness Thresholds in Healthcare Public Policy:
-Progress and Challenges.” *Applied Health Economics and Health Policy*
-22 (6): 797–804. <https://doi.org/10.1007/s40258-024-00900-5>.
-
-Hoyle, Martin, and Rob Anderson. 2010. “Whose Costs and Benefits? Why
-Economic Evaluations Should Simulate Both Prevalent and All Future
-Incident Patient Cohorts.” *Medical Decision Making* 30 (4): 426–37.
-<https://doi.org/10.1177/0272989X09353946>.
-
-Jofre-Bonet, Mireia, Alistair McGuire, Victoria Dayer, Joshua A. Roth,
-and Sean D. Sullivan. 2025. “The Price Effects of Biosimilars in the
-United States.” *Value in Health* 28 (March): 742–50.
-<https://doi.org/10.1016/j.jval.2025.02.008>.
-
-Laube, Y., M. Serra-Burriel, C. C. E. G. Glaus, and K. N. Vokinger.
-2024. “Launch and Postlaunch Price Developments of New Drugs in the US,
-Germany, and Switzerland.” *JAMA Health Forum* 5 (11): e244461.
-<https://doi.org/10.1001/jamahealthforum.2024.4461>.
-
-Lin, Ching-Hsuan, Jonathan D. Campbell, James Motyka, and Joshua T.
-Cohen. 2025. “US Drug Pricing Patterns Before Loss of Exclusivity.”
-*Value in Health* 28 (6): 907–14.
-<https://doi.org/10.1016/j.jval.2025.03.008>.
-
-Moreno, Santiago G, and Joshua A Ray. 2016. “The Value of Innovation
-Under Value-Based Pricing.” *Journal of Market Access and Health Policy*
-7 (4). <https://doi.org/10.3402/jmahp.v4.30754>.
-
-Neumann, Peter J., Meghan I. Podolsky, Anirban Basu, Daniel A.
-Ollendorf, and Joshua T. Cohen. 2022. “Do Cost-Effectiveness Analyses
-Account for Drug Genericization? A Literature Review and Assessment of
-Implications.” *Value in Health* 25 (1): 59–68.
-<https://doi.org/10.1016/j.jval.2021.06.014>.
-
-Puls, Mathilde, James Horscroft, Benjamin Kearns, Daniel Gladwell,
-Edward Church, Kasper Johannesen, Bill Malcolm, and John Borrill. 2024.
-“Challenges of Incorporating Life Cycle Drug Pricing in
-Cost-Effectiveness Models: A Review of Methods and Modeling
-Suggestions.” *Value in Health* 27 (7): 978–85.
-<https://doi.org/10.1016/j.jval.2024.03.006>.
-
-Schöttler, Marcel H., Friso B. Coerts, Maarten J. Postma, Cornelis
-Boersma, and Mark H. Rozenbaum. 2023. “The Effect of the Drug Life Cycle
-Price on Cost-Effectiveness: Case Studies Using Real-World Pricing
-Data.” *Value in Health* 26 (1): 91–98.
-<https://doi.org/10.1016/j.jval.2022.06.007>.
-
-Serra-Burriel, M., N. Martin-Bassols, G. Perényi, and K. N. Vokinger.
-2024. “Drug Prices After Patent Expirations in High-Income Countries and
-Implications for Cost-Effectiveness Analyses.” *JAMA Health Forum* 5
-(8): e242530. <https://doi.org/10.1001/jamahealthforum.2024.2530>.
-
-Shafrin, Jason, Jaehong Kim, Joshua T. Cohen, Louis P. Garrison, Dana A.
-Goldman, Jalpa A. Doshi, Joshua Krieger, et al. 2024. “Valuing the
-Societal Impact of Medicines and Other Health Technologies: A User Guide
-to Current Best Practices.” *Forum for Health Economics & Policy* 27
-(1): 29–116. <https://doi.org/10.1515/fhep-2024-0014>.
-
-Whittington, Melanie D., Joshua T. Cohen, Peter J. Neumann, Tyler D.
-Wagner, and Jonathan D. Campbell. 2025. “Identifying the Influential
-Dynamic Inputs in Cost-Effectiveness Analyses.” *Value in Health*,
-April, S1098301525022867. <https://doi.org/10.1016/j.jval.2025.03.016>.

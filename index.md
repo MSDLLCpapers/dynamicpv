@@ -1,23 +1,40 @@
 # dynamicpv: Evaluate present values and cost-effectiveness with dynamic pricing and uptake
 
-The goal of *dynamicpv* is to evaluate present values and
-cost-effectiveness with dynamic pricing and uptake.
+The goal of ‘dynamicpv’ is to provide a simple way to calculate (net)
+present values and outputs from health economic models (especially
+cost-effectiveness and budget impact) in discrete time that reflect
+dynamic pricing and dynamic uptake.
+
+Dynamic pricing is also known as life cycle pricing; dynamic uptake is
+also known as multiple or stacked cohorts, or dynamic disease
+prevalence. [Shafrin (2024)](https://doi.org/10.1515/fhep-2024-0014)
+provides an explanation of dynamic value elements, in the context of
+Generalized Cost Effectiveness Analysis, and [Puls
+(2024)](https://doi.org/10.1016/j.jval.2024.03.006) reviews challenges
+of incorporating such dynamic value elements. This package aims to
+reduce those challenges.
 
 Through the
 [dynpv()](https://msdllcpapers.github.io/dynamicpv/reference/dynpv.html)
 function, the package provides calculations of the present values of
 costs, life years, QALYs or other payoffs allowing for dynamic uptake
-(also known as multiple cohorts) and dynamic pricing (also known as
-life-cycle). The starting point is a conventional cohort
+and dynamic pricing. The starting point is a conventional cohort
 cost-effectiveness model, such as one computed using the
 [heemod](https://cran.r-project.org/package=heemod) package.
 
 ## Installation
 
+The package should shortly be available on
+[CRAN](https://cran.r-project.org/web/packages/index.html). Installing
+from here is simplest, once available.
+
+``` r
+# CRAN installation - when available
+install.packages("dynamicpv")
+```
+
 You can install the development version of *dynamicpv* from
-[GitHub](https://github.com/) as follows. (The package was previously
-known as *dynacem*, but *dynamicpv* better reflects the package’s
-intent.)
+[GitHub](https://github.com/) as follows.
 
 ``` r
 # Install devtools package if not already installed
@@ -53,36 +70,32 @@ library(tidyr)
 
 There are four vignettes provided.
 
-1.  The [Dynamic
-    Pricing](https://msdllcpapers.github.io/dynamicpv/articles/dynamic-pricing.html)
+1.  The [Mathematical
+    Framework](https://msdllcpapers.github.io/dynamicpv/articles/math-framework.html)
     vignette
-    ([`vignette("dynamic-pricing")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-pricing.md))
-    describes how present values may be calculated in the package from a
-    payoff vector, allowing for the prices of the resources costed to be
-    dynamic.
+    ([`vignette("math-framework")`](https://MSDLLCpapers.github.io/dynamicpv/articles/math-framework.md))
+    describes the motivation and mathematical framework behind this
+    package.
 
-2.  The [Dynamic
-    Uptake](https://msdllcpapers.github.io/dynamicpv/articles/dynamic-uptake.html)
+2.  The [Net Present
+    Value](https://msdllcpapers.github.io/dynamicpv/articles/net-present-value.html)
     vignette
-    ([`vignette("dynamic-uptake")`](https://MSDLLCpapers.github.io/dynamicpv/articles/dynamic-uptake.md))
-    explores further how present values can be derived allowing for
-    dynamic uptake. This is in contrast to the non-dynamic approach of
-    calculating a present value for a single cohort of patients. This is
-    analogous to the use by general insurance actuaries of run-off
-    triangles.
+    ([`vignette("net-present-value")`](https://MSDLLCpapers.github.io/dynamicpv/articles/net-present-value.md))
+    describes how the package can be used to derive Net Present Values
+    of simple cashflows with dynamic pricing and/or dynamic uptake.
 
 3.  The [Cost-Effectiveness
     Applications](https://msdllcpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.html)
-    (`vignette(cost-effectiveness-applications")`) vignette describes
-    how, given a static cost-effectiveness model (single cohort, prices
-    constant in real terms), Incremental Cost-Effectiveness Ratios may
-    be calculated that allow for dynamic pricing and/or dynamic uptake.
-    This is illustrated by taking an example three-state partitioned
-    survival model of a new intervention for an oncology indication
-    compared to standard of care, with stated assumptions for how
-    pricing and uptake may be dynamic. Nominal and Real ICERs are
-    plotted over time, illustrating the impact of the loss of
-    exclusivity points for each intervention.
+    ([`vignette("cost-effectiveness-applications")`](https://MSDLLCpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.md))
+    vignette describes how, given a static cost-effectiveness model
+    (single cohort, prices constant in real terms), Incremental
+    Cost-Effectiveness Ratios may be calculated that allow for dynamic
+    pricing and/or dynamic uptake. This is illustrated by taking an
+    example three-state partitioned survival model of a new intervention
+    for an oncology indication compared to standard of care, with stated
+    assumptions for how pricing and uptake may be dynamic. Nominal and
+    Real ICERs are plotted over time, illustrating the impact of the
+    loss of exclusivity points for each intervention.
 
 4.  The [Budget Impact
     Applications](https://msdllcpapers.github.io/dynamicpv/articles/budget-impact-applications.html)

@@ -1,25 +1,22 @@
 # Budget Impact Applications
 
-## Set-up
+## Introduction
 
-First we load the packages necessary for this vignette.
+Our objective is to evaluate the budget impact of introducing a new
+intervention, assuming static or dynamic pricing. Uptake in budget
+impact models is already modeled in a dynamic fashion.
 
-``` r
-library(dplyr)
-library(lubridate)
-library(heemod)
-library(dynamicpv)
-```
+## Methods and Assumptions
 
-Then let us suppose we have the same cost-effectiveness model and
-variables as set-up in
-[`vignette("cost-effectiveness-applications")`](https://MSDLLCpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.md).
+### General assumptions
 
-## Methods
+Budget impact models conventionally have no discounting and a shorter
+time horizon than cost-effectiveness models, so we will use a time
+horizon of 5 years here and a discount rate of 0%. We will compute a
+budget impact model using current pricing (per convention) as well as by
+using dynamic pricing according to the assumptions previously set.
 
-The package allows us the ability to derive budget impact model
-calculations consistent with the cost-effectiveness model shown
-previously.
+### Dynamic pricing
 
 To recap, we had the following assumptions concerning pricing, with a
 date of calculation of 2025-09-01.
@@ -33,6 +30,8 @@ date of calculation of 2025-09-01.
   2031-01-01, after which there would be a 50% reduction in prices over
   one year.
 
+### Dynamic uptake
+
 We had the following assumptions concerning patient uptake.
 
 - Only newly incident patients with the cancer being modeled would be
@@ -43,11 +42,22 @@ We had the following assumptions concerning patient uptake.
   uptake of the new intervention would be expected to rise linearly from
   0% to 100% after 2 years.
 
-Budget impact models conventionally have no discounting and a shorter
-time horizon than cost-effectiveness models, so we will use a time
-horizon of 5 years here and a discount rate of 0%. We will compute a
-budget impact model using current pricing (per convention) as well as by
-using dynamic pricing according to the assumptions previously set.
+## Implementation
+
+### Set-up
+
+First we load the packages necessary for this vignette.
+
+``` r
+library(dplyr)
+library(lubridate)
+library(heemod)
+library(dynamicpv)
+```
+
+The underlying health economic model is built as described in
+[`vignette("cost-effectiveness-applications")`](https://MSDLLCpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.md).
+We require additional coding for the budget impact evaluation.
 
 ``` r
 # BIM settings
@@ -154,19 +164,48 @@ budget_with1_soc <- with1_soc_daqcost + with1_soc_othcost
 budget_with1_new <- with1_new_daqcost + with1_new_othcost
 budget_with1 <- budget_with1_soc + budget_with1_new
 #> Warning in addprod(e1, e2, mult = 1): Uptake vectors differ in length
+```
 
-# Budget impact
-bi1_soc <- budget_with1_soc - budget_wout1_soc
-#> Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length
-bi1_new <- budget_with1_new
-bi1 <- budget_with1 - budget_wout1
+Note the warning provided by `dynamicpv`. This is because the uptake
+vector for SoC, when trimmed of zeroes after uptake stops, has a
+different (shorter) length than the uptake vector for the new
+intervention. The calculation is still correct. However, the function is
+flagging for the user the different uptake vectors being used for
+different present value calculations.
+
+``` r
+# The uptake vector for the new intervention is long
+length(trim_vec(uptake_new))
+#> [1] 1044
+
+# The uptake vector for the SoC is short, once trimmed of excess zeros
+length(trim_vec(uptake_soc))
+#> [1] 103
 ```
 
 The budgetary costs in the world with the new intervention are
 \$26,964,789, comprising \$3,508,178 in respect of the costs of 103
 patients being treated with the SoC, and \$23,456,610 in respect of the
-costs of 419 patients being treated with the SoC. The total budget
-impact is \$14,041,423, representing an increase of 109%.
+costs of 419 patients being treated with the SoC.
+
+``` r
+# Budget impact
+bi1_soc <- budget_with1_soc - budget_wout1_soc
+#> Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length
+bi1_new <- budget_with1_new
+bi1 <- budget_with1 - budget_wout1
+
+summary(bi1)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             261 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           14041423 
+#>      Mean present value:            Inf
+```
+
+The total budget impact is \$14,041,423, representing an increase of
+109%.
 
 ### Dynamic prices
 
@@ -233,19 +272,32 @@ budget_with2_soc <- with2_soc_daqcost + with2_soc_othcost
 budget_with2_new <- with2_new_daqcost + with2_new_othcost
 budget_with2 <- budget_with2_soc + budget_with2_new
 #> Warning in addprod(e1, e2, mult = 1): Uptake vectors differ in length
+```
 
+Notice that there is a similar warning as earlier. The budgetary costs
+in the world with the new intervention are \$28,535,724, comprising
+\$3,460,107 in respect of the costs of 103 patients being treated with
+the SoC, and \$25,075,617 in respect of the costs of 419 patients being
+treated with the new treatment.
+
+``` r
 # Budget impact
 bi2_soc <- budget_with2_soc - budget_wout2_soc
 #> Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length
 bi2_new <- budget_with2_new
 bi2 <- budget_with2 - budget_wout2
+
+summary(bi2)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             261 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           17019592 
+#>      Mean present value:            Inf
 ```
 
-The budgetary costs in the world with the new intervention are
-\$28,535,724, comprising \$3,460,107 in respect of the costs of 103
-patients being treated with the SoC, and \$25,075,617 in respect of the
-costs of 419 patients being treated with the new treatment. The total
-budget impact is \$17,019,592, representing an increase of 148%.
+The total budget impact is \$17,019,592, representing an increase of
+148%.
 
 ### Summary
 

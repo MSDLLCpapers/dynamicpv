@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Evaluates Present Values and Cost-Effectiveness with Dynamic Pricing and Uptake • dynamicpv</title>
+<title>Evaluates Present Values and Health Economic Models with Dynamic Pricing and Uptake • dynamicpv</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -21,9 +21,9 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Evaluates Present Values and Cost-Effectiveness with Dynamic Pricing and Uptake">
-<meta name="description" content="Evaluates present values and cost-effectiveness with dynamic pricing and uptake.">
-<meta property="og:description" content="Evaluates present values and cost-effectiveness with dynamic pricing and uptake.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Evaluates Present Values and Health Economic Models with Dynamic Pricing and Uptake">
+<meta name="description" content="The goal of dynamicpv is to provide a simple way to calculate (net) present values and outputs from health economic models (especially cost-effectiveness and budget impact) in discrete time that reflect dynamic pricing and dynamic uptake. Dynamic pricing is also known as life cycle pricing; dynamic uptake is also known as multiple or stacked cohorts, or dynamic disease prevalence. Shafrin (2024) &lt;doi:10.1515/fhep-2024-0014&gt; provides an explanation of dynamic value elements, in the context of Generalized Cost Effectiveness Analysis, and Puls (2024) &lt;doi:10.1016/j.jval.2024.03.006&gt; reviews challenges of incorporating such dynamic value elements. This package aims to reduce those challenges.">
+<meta property="og:description" content="The goal of dynamicpv is to provide a simple way to calculate (net) present values and outputs from health economic models (especially cost-effectiveness and budget impact) in discrete time that reflect dynamic pricing and dynamic uptake. Dynamic pricing is also known as life cycle pricing; dynamic uptake is also known as multiple or stacked cohorts, or dynamic disease prevalence. Shafrin (2024) &lt;doi:10.1515/fhep-2024-0014&gt; provides an explanation of dynamic value elements, in the context of Generalized Cost Effectiveness Analysis, and Puls (2024) &lt;doi:10.1016/j.jval.2024.03.006&gt; reviews challenges of incorporating such dynamic value elements. This package aims to reduce those challenges.">
 <meta property="og:image" content="https://MSDLLCpapers.github.io/dynamicpv/logo.png">
 </head>
 <body>
@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="index.html">dynamicpv</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,8 +49,8 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/budget-impact-applications.html">Budget Impact Applications</a></li>
     <li><a class="dropdown-item" href="articles/cost-effectiveness-applications.html">Cost-Effectiveness Applications</a></li>
-    <li><a class="dropdown-item" href="articles/dynamic-pricing.html">Dynamic Pricing</a></li>
-    <li><a class="dropdown-item" href="articles/dynamic-uptake.html">Dynamic Uptake</a></li>
+    <li><a class="dropdown-item" href="articles/math-framework.html">Mathematical Framework</a></li>
+    <li><a class="dropdown-item" href="articles/net-present-value.html">Net Present Value</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -74,23 +74,28 @@
 </div>
 <!-- badges: start -->
 
-<p>The goal of <em>dynamicpv</em> is to evaluate present values and cost-effectiveness with dynamic pricing and uptake.</p>
-<p>Through the <a href="https://msdllcpapers.github.io/dynamicpv/reference/dynpv.html" class="external-link">dynpv()</a> function, the package provides calculations of the present values of costs, life years, QALYs or other payoffs allowing for dynamic uptake (also known as multiple cohorts) and dynamic pricing (also known as life-cycle). The starting point is a conventional cohort cost-effectiveness model, such as one computed using the <a href="https://cran.r-project.org/package=heemod" class="external-link">heemod</a> package.</p>
+<p>The goal of ‘dynamicpv’ is to provide a simple way to calculate (net) present values and outputs from health economic models (especially cost-effectiveness and budget impact) in discrete time that reflect dynamic pricing and dynamic uptake.</p>
+<p>Dynamic pricing is also known as life cycle pricing; dynamic uptake is also known as multiple or stacked cohorts, or dynamic disease prevalence. <a href="https://doi.org/10.1515/fhep-2024-0014" class="external-link">Shafrin (2024)</a> provides an explanation of dynamic value elements, in the context of Generalized Cost Effectiveness Analysis, and <a href="https://doi.org/10.1016/j.jval.2024.03.006" class="external-link">Puls (2024)</a> reviews challenges of incorporating such dynamic value elements. This package aims to reduce those challenges.</p>
+<p>Through the <a href="https://msdllcpapers.github.io/dynamicpv/reference/dynpv.html" class="external-link">dynpv()</a> function, the package provides calculations of the present values of costs, life years, QALYs or other payoffs allowing for dynamic uptake and dynamic pricing. The starting point is a conventional cohort cost-effectiveness model, such as one computed using the <a href="https://cran.r-project.org/package=heemod" class="external-link">heemod</a> package.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <em>dynamicpv</em> from <a href="https://github.com/" class="external-link">GitHub</a> as follows. (The package was previously known as <em>dynacem</em>, but <em>dynamicpv</em> better reflects the package’s intent.)</p>
+<p>The package should shortly be available on <a href="https://cran.r-project.org/web/packages/index.html" class="external-link">CRAN</a>. Installing from here is simplest, once available.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># CRAN installation - when available</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"dynamicpv"</span><span class="op">)</span></span></code></pre></div>
+<p>You can install the development version of <em>dynamicpv</em> from <a href="https://github.com/" class="external-link">GitHub</a> as follows.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install devtools package if not already installed</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Install dynamicpv using pak from MSD repository</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"MSDLLCpapers/dynamicpv"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that the above does not install vignettes. Vignettes may be viewed on the <a href="https://msdllcpapers.github.io/dynamicpv/" class="external-link">package website</a> or by instead running the following.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"MSDLLCpapers/dynamicpv"</span>, build_vignettes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>You should then load the package, alongside some other packages used here.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the dynamicpv package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://MSDLLCpapers.github.io/dynamicpv/">dynamicpv</a></span><span class="op">)</span></span>
 <span></span>
@@ -105,9 +110,9 @@
 </h2>
 <p>There are four vignettes provided.</p>
 <ol style="list-style-type: decimal">
-<li><p>The <a href="https://msdllcpapers.github.io/dynamicpv/articles/dynamic-pricing.html" class="external-link">Dynamic Pricing</a> vignette (<code><a href="articles/dynamic-pricing.html">vignette("dynamic-pricing")</a></code>) describes how present values may be calculated in the package from a payoff vector, allowing for the prices of the resources costed to be dynamic.</p></li>
-<li><p>The <a href="https://msdllcpapers.github.io/dynamicpv/articles/dynamic-uptake.html" class="external-link">Dynamic Uptake</a> vignette (<code><a href="articles/dynamic-uptake.html">vignette("dynamic-uptake")</a></code>) explores further how present values can be derived allowing for dynamic uptake. This is in contrast to the non-dynamic approach of calculating a present value for a single cohort of patients. This is analogous to the use by general insurance actuaries of run-off triangles.</p></li>
-<li><p>The <a href="https://msdllcpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.html" class="external-link">Cost-Effectiveness Applications</a> (<code>vignette(cost-effectiveness-applications")</code>) vignette describes how, given a static cost-effectiveness model (single cohort, prices constant in real terms), Incremental Cost-Effectiveness Ratios may be calculated that allow for dynamic pricing and/or dynamic uptake. This is illustrated by taking an example three-state partitioned survival model of a new intervention for an oncology indication compared to standard of care, with stated assumptions for how pricing and uptake may be dynamic. Nominal and Real ICERs are plotted over time, illustrating the impact of the loss of exclusivity points for each intervention.</p></li>
+<li><p>The <a href="https://msdllcpapers.github.io/dynamicpv/articles/math-framework.html" class="external-link">Mathematical Framework</a> vignette (<code><a href="articles/math-framework.html">vignette("math-framework")</a></code>) describes the motivation and mathematical framework behind this package.</p></li>
+<li><p>The <a href="https://msdllcpapers.github.io/dynamicpv/articles/net-present-value.html" class="external-link">Net Present Value</a> vignette (<code><a href="articles/net-present-value.html">vignette("net-present-value")</a></code>) describes how the package can be used to derive Net Present Values of simple cashflows with dynamic pricing and/or dynamic uptake.</p></li>
+<li><p>The <a href="https://msdllcpapers.github.io/dynamicpv/articles/cost-effectiveness-applications.html" class="external-link">Cost-Effectiveness Applications</a> (<code><a href="articles/cost-effectiveness-applications.html">vignette("cost-effectiveness-applications")</a></code>) vignette describes how, given a static cost-effectiveness model (single cohort, prices constant in real terms), Incremental Cost-Effectiveness Ratios may be calculated that allow for dynamic pricing and/or dynamic uptake. This is illustrated by taking an example three-state partitioned survival model of a new intervention for an oncology indication compared to standard of care, with stated assumptions for how pricing and uptake may be dynamic. Nominal and Real ICERs are plotted over time, illustrating the impact of the loss of exclusivity points for each intervention.</p></li>
 <li><p>The <a href="https://msdllcpapers.github.io/dynamicpv/articles/budget-impact-applications.html" class="external-link">Budget Impact Applications</a> (<code><a href="articles/budget-impact-applications.html">vignette("budget-impact-applications")</a></code>) vignette describes how, given a static cost-effectiveness model (single cohort, prices constant in real terms) and dynamic uptake, a budget impact can be readily calculated. The calculations are repeated with the dynamic pricing assumptions to illustrate how easily this can be done, and examine the differences between a budget impact assessment with and without dynamic pricing.</p></li>
 </ol>
 </div>
