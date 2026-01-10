@@ -27,9 +27,7 @@ cost-effectiveness model, such as one computed using the
 ## Installation
 
 You can install the development version of *dynamicpv* from
-[GitHub](https://github.com/) as follows. (The package was previously
-known as *dynacem*, but *dynamicpv* better reflects the package’s
-intent.)
+[GitHub](https://github.com/) as follows.
 
 ``` r
 # Install devtools package if not already installed

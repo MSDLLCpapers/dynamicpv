@@ -28,7 +28,35 @@ knitr::knit_hooks$set(
 )
 ```
 
-## Set-up
+## Introduction
+
+Our objective is to evaluate the budget impact of introducing a new intervention, assuming static or dynamic pricing. Uptake in budget impact models is already modeled in a dynamic fashion.
+
+## Methods and Assumptions
+
+### General assumptions
+
+Budget impact models conventionally have no discounting and a shorter time horizon than cost-effectiveness models, so we will use a time horizon of 5 years here and a discount rate of 0\%. We will compute a budget impact model using current pricing (per convention) as well as by using dynamic pricing according to the assumptions previously set.
+
+### Dynamic pricing
+
+To recap, we had the following assumptions concerning pricing, with a date of calculation of 2025-09-01.
+
+- Costs are assumed to increases in line with general inflation (2.5% per year), except for effects on drug acquisition costs due to LoEs.
+- The LoE for the SoC is assumed to occur first, at 2028-01-01, after which there is anticipated to be a 70% reduction in prices over one year.
+- The new intervention has an LoE occuring three years later, at 2031-01-01, after which there would be a 50% reduction in prices over one year.
+
+### Dynamic uptake
+
+We had the following assumptions concerning patient uptake.
+
+- Only newly incident patients with the cancer being modeled would be eligible for the new treatment. Existing/prevalent patients with the condition would not be eligible.
+- The disease incidence is 1 patient per week.
+- Among these patients, were the new intervention to be made available, uptake of the new intervention would be expected to rise linearly from 0% to 100% after 2 years.
+
+## Implementation
+
+### Set-up
 
 First we load the packages necessary for this vignette.
 
@@ -266,7 +294,6 @@ prices_dyn_soc <- pricetib$dyn_soc
 prices_dyn_new <- pricetib$dyn_new
 ```
 
-
 ```{r dynuptake, include=FALSE}
 # Time for uptake to occur
 uptake_years <- 2
@@ -304,25 +331,7 @@ hemout_new <- payoffs |> dplyr::filter(int=="new")
 head(hemout_new)
 ```
 
-Then let us suppose we have the same cost-effectiveness model and variables as set-up in `vignette("cost-effectiveness-applications")`.
-
-## Methods
-
-The package allows us the ability to derive budget impact model calculations consistent with the cost-effectiveness model shown previously.
-
-To recap, we had the following assumptions concerning pricing, with a date of calculation of 2025-09-01.
-
-- Costs are assumed to increases in line with general inflation (2.5% per year), except for effects on drug acquisition costs due to LoEs.
-- The LoE for the SoC is assumed to occur first, at 2028-01-01, after which there is anticipated to be a 70% reduction in prices over one year.
-- The new intervention has an LoE occuring three years later, at 2031-01-01, after which there would be a 50% reduction in prices over one year.
-
-We had the following assumptions concerning patient uptake.
-
-- Only newly incident patients with the cancer being modeled would be eligible for the new treatment. Existing/prevalent patients with the condition would not be eligible.
-- The disease incidence is 1 patient per week.
-- Among these patients, were the new intervention to be made available, uptake of the new intervention would be expected to rise linearly from 0% to 100% after 2 years.
-
-Budget impact models conventionally have no discounting and a shorter time horizon than cost-effectiveness models, so we will use a time horizon of 5 years here and a discount rate of 0\%. We will compute a budget impact model using current pricing (per convention) as well as by using dynamic pricing according to the assumptions previously set.
+The underlying health economic model is built as described in `vignette("cost-effectiveness-applications")`. We require additional coding for the budget impact evaluation.
 
 ```{r bimshare}
 # BIM settings
@@ -423,14 +432,30 @@ with1_new_othcost <- dynpv(
 budget_with1_soc <- with1_soc_daqcost + with1_soc_othcost
 budget_with1_new <- with1_new_daqcost + with1_new_othcost
 budget_with1 <- budget_with1_soc + budget_with1_new
+```
 
+Note the warning provided by `dynamicpv`. This is because the uptake vector for SoC, when trimmed of zeroes after uptake stops, has a different (shorter) length than the uptake vector for the new intervention. The calculation is still correct. However, the function is flagging for the user the different uptake vectors being used for different present value calculations.
+
+```{r warnlength}
+# The uptake vector for the new intervention is long
+length(trim_vec(uptake_new))
+
+# The uptake vector for the SoC is short, once trimmed of excess zeros
+length(trim_vec(uptake_soc))
+```
+
+The budgetary costs in the world with the new intervention are $`r total(budget_with1)`, comprising $`r total(budget_with1_soc)` in respect of the costs of `r uptake(budget_with1_soc)` patients being treated with the SoC, and $`r total(budget_with1_new)` in respect of the costs of `r uptake(budget_with1_new)` patients being treated with the SoC. 
+
+```{r bim_iwith1}
 # Budget impact
 bi1_soc <- budget_with1_soc - budget_wout1_soc
 bi1_new <- budget_with1_new
 bi1 <- budget_with1 - budget_wout1
+
+summary(bi1)
 ```
 
-The budgetary costs in the world with the new intervention are $`r total(budget_with1)`, comprising $`r total(budget_with1_soc)` in respect of the costs of `r uptake(budget_with1_soc)` patients being treated with the SoC, and $`r total(budget_with1_new)` in respect of the costs of `r uptake(budget_with1_new)` patients being treated with the SoC. The total budget impact is $`r total(bi1)`, representing an increase of `r total(bi1)/total(budget_wout1) *100`%.
+The total budget impact is $`r total(bi1)`, representing an increase of `r total(bi1)/total(budget_wout1) *100`%.
 
 ### Dynamic prices
 
@@ -490,14 +515,20 @@ with2_new_othcost <- with1_new_othcost
 budget_with2_soc <- with2_soc_daqcost + with2_soc_othcost
 budget_with2_new <- with2_new_daqcost + with2_new_othcost
 budget_with2 <- budget_with2_soc + budget_with2_new
+```
 
+Notice that there is a similar warning as earlier. The budgetary costs in the world with the new intervention are $`r total(budget_with2)`, comprising $`r total(budget_with2_soc)` in respect of the costs of `r uptake(budget_with2_soc)` patients being treated with the SoC, and $`r total(budget_with2_new)` in respect of the costs of `r uptake(budget_with2_new)` patients being treated with the new treatment. 
+
+```{r bim_iwith2}
 # Budget impact
 bi2_soc <- budget_with2_soc - budget_wout2_soc
 bi2_new <- budget_with2_new
 bi2 <- budget_with2 - budget_wout2
+
+summary(bi2)
 ```
 
-The budgetary costs in the world with the new intervention are $`r total(budget_with2)`, comprising $`r total(budget_with2_soc)` in respect of the costs of `r uptake(budget_with2_soc)` patients being treated with the SoC, and $`r total(budget_with2_new)` in respect of the costs of `r uptake(budget_with2_new)` patients being treated with the new treatment. The total budget impact is $`r total(bi2)`, representing an increase of `r total(bi2)/total(budget_wout2) *100`%.
+The total budget impact is $`r total(bi2)`, representing an increase of `r total(bi2)/total(budget_wout2) *100`%.
 
 ### Summary
 
