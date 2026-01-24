@@ -98,34 +98,11 @@
 dynpv <- function(
     uptakes = 1,
     payoffs,
-    horizon = NA,
+    horizon = length(payoffs),
     tzero = 0,
-    prices = NA,
+    prices = rep(1, length(payoffs)+tzero),
     discrate = 0
     ){
-  # If payoffs are discrete
-  if (class(payoffs)=="numeric") {
-    # Horizon defaults to length of payoffs
-    if (class(horizon)=="logical") {horizon <- length(payoffs)}
-    # Price index defaults to (1, ..., 1)
-    if (class(prices)=="logical") {prices <- rep(1, length(payoffs)+tzero)}
-    # Call calculation
-    dpv <- dynpv_discrete(uptakes, payoffs, horizon, tzero, prices, discrate)
-  }
-  # If payoffs are not discrete and uptake is discrete
-  if ((class(uptakes)=="numeric") & (class(payoffs)=="function")) {
-    dpv <- dynpv_semicts(uptakes, payoffs, horizon, tzero, prices, discrate)
-  }
-  # If payoffs and uptake are not discrete
-  if ((class(uptakes)=="function") & (class(payoffs)=="function")) {
-    dpv <- dynpv_fullycts(uptakes, payoffs, horizon, tzero, prices, discrate)
-  }
-  # Return
-  return(dpv)
-}
-
-# Discrete function
-dynpv_discrete <- function(uptakes, payoffs, horizon, tzero, prices, discrate){
   # Avoid no visible binding note
   j <- k <- l <- uj <- pk <- R <- v <- NULL
   # Trim
@@ -159,43 +136,4 @@ trim_vec <- function(vec){
   trimto <- which(rev(cumsum(rev(vec)))==vec)[1]
   # Return trimmed vector
   return(vec[1:trimto])
-}
-
-# Function if payoffs, prices and discounting are functions; but uptakes is a vector
-dynpv_semicts <- function(uptakes, payoffs, horizon, tzero, prices, discrate){
-  # Avoid no visible binding note
-  j <- uj <- pRv <- pv <- NULL
-  # Trim
-  uptakes <- trim_vec(uptakes)
-  # Integrand function  
-  integrand <- function(k, j) {
-    payoffs(k) * prices(j+k+tzero) * discrate(j+k)
-  }
-  # Create a dataset for each combination of time
-  df <- expand_grid(j=1:length(uptakes)) |>
-    dplyr::mutate(
-      uj = uptakes[j],
-      pRv = stats::integrate(integrand, lower=0, upper=horizon-j, j=j)$value,
-      pv = uj * pRv
-    )
-  class(df) <- c("dynpv", class(df))
-  return(df)
-}
-
-# Function if uptakes, payoffs, prices and discounting are functions
-dynpv_fullycts <- function(uptakes, payoffs, horizon, tzero, prices, discrate){
-  # First integrand function - pRv, to be integrated between k=0 and k=T-j
-  integrand1 <- function(k, j) {
-    payoffs(k) * prices(j+k+tzero) * discrate(j+k)
-  }
-  # Second integrand function, uj I, to be integrated between j=0 and j=T
-  integrand2 <- function(j) {
-    pRv <- stats::integrate(integrand1, lower=0, upper=horizon-j, j=j)$value
-    uptakes(j) * pRv
-  }
-  # Needs to be vectorized before integrating
-  integrand2 <- Vectorize(integrand2, "j")
-  # Calculate double integral
-  df <- stats::integrate(integrand2, lower=0, upper=horizon)
-  return(df$value)
 }

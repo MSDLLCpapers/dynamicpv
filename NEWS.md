@@ -1,7 +1,3 @@
-# dynamicpv (development version)
-
-* So far, only minor changes to the readme page
-
 # dynamicpv 0.4.1
 
 * Revised vignettes
