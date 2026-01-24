@@ -29,7 +29,7 @@ Through the [dynpv()](https://msdllcpapers.github.io/dynamicpv/reference/dynpv.h
 
 ## Installation
 
-The package is now available on [CRAN](https://cran.r-project.org/web/packages/index.html). Installing from here is simplest, as follows.
+The package should shortly be available on [CRAN](https://cran.r-project.org/web/packages/index.html). Installing from here is simplest, once available.
 
 ```{r inst_cran}
 #| eval: false
@@ -48,7 +48,14 @@ install.packages("devtools")
 pak::pak("MSDLLCpapers/dynamicpv")
 ```
 
-Installing the development version in this way does not include vignettes. Vignettes may be viewed on the [package website](https://msdllcpapers.github.io/dynamicpv/). You can then load the package, alongside other packages you may find helpful.
+Note that the above does not install vignettes. Vignettes may be viewed on the [package website](https://msdllcpapers.github.io/dynamicpv/) or by instead running the following.
+
+```{r instal2}
+#| eval: false
+devtools::install_github("MSDLLCpapers/dynamicpv", build_vignettes=TRUE)
+```
+
+You should then load the package, alongside some other packages used here.
 
 ```{r instal3}
 #| eval: false
