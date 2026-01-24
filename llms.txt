@@ -24,9 +24,9 @@ cost-effectiveness model, such as one computed using the
 
 ## Installation
 
-The package should shortly be available on
+The package is now available on
 [CRAN](https://cran.r-project.org/web/packages/index.html). Installing
-from here is simplest, once available.
+from here is simplest, as follows.
 
 ``` r
 # CRAN installation - when available
@@ -44,16 +44,10 @@ install.packages("devtools")
 pak::pak("MSDLLCpapers/dynamicpv")
 ```
 
-Note that the above does not install vignettes. Vignettes may be viewed
-on the [package website](https://msdllcpapers.github.io/dynamicpv/) or
-by instead running the following.
-
-``` r
-devtools::install_github("MSDLLCpapers/dynamicpv", build_vignettes=TRUE)
-```
-
-You should then load the package, alongside some other packages used
-here.
+Installing the development version in this way does not include
+vignettes. Vignettes may be viewed on the [package
+website](https://msdllcpapers.github.io/dynamicpv/). You can then load
+the package, alongside other packages you may find helpful.
 
 ``` r
 # Load the dynamicpv package

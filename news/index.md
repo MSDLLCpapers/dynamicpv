@@ -1,5 +1,9 @@
 # Changelog
 
+## dynamicpv (development version)
+
+- So far, only minor changes to the readme page
+
 ## dynamicpv 0.4.1
 
 CRAN release: 2026-01-15
