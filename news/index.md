@@ -2,6 +2,8 @@
 
 ## dynamicpv 0.4.1
 
+CRAN release: 2026-01-15
+
 - Revised vignettes
 - Extended description for CRAN readiness
 

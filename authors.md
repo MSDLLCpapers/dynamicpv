@@ -14,7 +14,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/MSDLLCpapers/dynamicpv/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/MSDLLCpapers/dynamicpv/blob/v0.4.1/DESCRIPTION)
 
 Muston D (2026). *dynamicpv: Evaluates Present Values and Health
 Economic Models with Dynamic Pricing and Uptake*. R package version
