@@ -18,12 +18,12 @@ Source:
 
 Muston D (2026). *dynamicpv: Evaluates Present Values and Health
 Economic Models with Dynamic Pricing and Uptake*. R package version
-0.4.1.9000, <https://MSDLLCpapers.github.io/dynamicpv/>.
+0.4.1, <https://MSDLLCpapers.github.io/dynamicpv/>.
 
     @Manual{,
       title = {dynamicpv: Evaluates Present Values and Health Economic Models with Dynamic Pricing and Uptake},
       author = {Dominic Muston},
       year = {2026},
-      note = {R package version 0.4.1.9000},
+      note = {R package version 0.4.1},
       url = {https://MSDLLCpapers.github.io/dynamicpv/},
     }
