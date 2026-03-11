@@ -169,12 +169,14 @@ additional coding for the budget impact evaluation.</p>
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h2>
 <div class="section level3">
-<h3 id="static-prices">Static prices<a class="anchor" aria-label="anchor" href="#static-prices"></a>
+<h3 id="scenario-1-no-dynamic-uptake-or-pricing">Scenario 1: No dynamic uptake or pricing<a class="anchor" aria-label="anchor" href="#scenario-1-no-dynamic-uptake-or-pricing"></a>
 </h3>
-<p>First we consider static prices, i.e. we assume the prices of
-existing resources remain unchanged from now in the horizon of the
-budget impact model. Let us use that function to calculate budgetary
-costs for the world without the new intervention.</p>
+<p>This scenario assumes static uptake, i.e. that uptake is immediate
+and 100% of eligible patients. This is an unconventional approach for a
+budget impact analysis. The analysis also assumes static prices, i.e. we
+assume the prices of existing resources remain unchanged from now in the
+horizon of the budget impact model. First we calculate costs with the
+SoC, in the ‘world without’ the new intervention.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># World without new intervention</span></span>
 <span></span>
@@ -197,35 +199,19 @@ costs for the world without the new intervention.</p>
 <span>    <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Total budgetary costs</span></span>
-<span><span class="va">budget_wout1</span> <span class="op">&lt;-</span> <span class="va">budget_wout1_soc</span> <span class="op">&lt;-</span> <span class="va">wout1_soc_daqcost</span> <span class="op">+</span> <span class="va">wout1_soc_othcost</span></span></code></pre></div>
+<span><span class="va">budget_wout1_soc</span> <span class="op">&lt;-</span> <span class="va">wout1_soc_daqcost</span> <span class="op">+</span> <span class="va">wout1_soc_othcost</span></span>
+<span><span class="va">budget_wout1_new</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">budget_wout1</span> <span class="op">&lt;-</span> <span class="va">budget_wout1_soc</span></span></code></pre></div>
 <p>The total budgetary costs in the world without are $12,923,366 in
 respect of 522 patients.</p>
-<p>Let us now calculate the budgetary costs in the world with the new
-intervention.</p>
+<p>Next we calculate costs with the new treatment, in the ‘world with’
+the new intervention.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># World with</span></span>
-<span></span>
-<span><span class="co"># SoC, drug acquisition costs</span></span>
-<span><span class="va">with1_soc_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
-<span>    uptakes <span class="op">=</span> <span class="va">uptake_soc</span>,</span>
-<span>    payoffs <span class="op">=</span> <span class="va">hemout_soc</span><span class="op">$</span><span class="va">cost_daq_soc_rup</span>,</span>
-<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
-<span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
-<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
-<span>    <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># SoC, other costs</span></span>
-<span><span class="va">with1_soc_othcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
-<span>    uptakes <span class="op">=</span> <span class="va">uptake_soc</span>,</span>
-<span>    payoffs <span class="op">=</span> <span class="va">hemout_soc</span><span class="op">$</span><span class="va">cost_nondaq_rup</span>,</span>
-<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
-<span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
-<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
-<span>    <span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># World with: SoC are zero</span></span>
 <span></span>
 <span><span class="co"># New intervention, drug acquisition costs</span></span>
 <span><span class="va">with1_new_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
-<span>    uptakes <span class="op">=</span> <span class="va">uptake_new</span>,</span>
+<span>    uptakes <span class="op">=</span> <span class="va">newly_eligible</span>,</span>
 <span>    payoffs <span class="op">=</span> <span class="va">hemout_new</span><span class="op">$</span><span class="va">cost_daq_new_rup</span>,</span>
 <span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
 <span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
@@ -234,7 +220,7 @@ intervention.</p>
 <span></span>
 <span><span class="co"># New intervention, other costs</span></span>
 <span><span class="va">with1_new_othcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
-<span>    uptakes <span class="op">=</span> <span class="va">uptake_new</span>,</span>
+<span>    uptakes <span class="op">=</span> <span class="va">newly_eligible</span>,</span>
 <span>    payoffs <span class="op">=</span> <span class="va">hemout_new</span><span class="op">$</span><span class="va">cost_nondaq_rup</span>,</span>
 <span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
 <span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
@@ -242,55 +228,32 @@ intervention.</p>
 <span>    <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Total</span></span>
-<span><span class="va">budget_with1_soc</span> <span class="op">&lt;-</span> <span class="va">with1_soc_daqcost</span> <span class="op">+</span> <span class="va">with1_soc_othcost</span></span>
+<span><span class="va">budget_with1_soc</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span><span class="va">budget_with1_new</span> <span class="op">&lt;-</span> <span class="va">with1_new_daqcost</span> <span class="op">+</span> <span class="va">with1_new_othcost</span></span>
-<span><span class="va">budget_with1</span> <span class="op">&lt;-</span> <span class="va">budget_with1_soc</span> <span class="op">+</span> <span class="va">budget_with1_new</span></span>
-<span><span class="co">#&gt; Warning in addprod(e1, e2, mult = 1): Uptake vectors differ in length</span></span></code></pre></div>
-<p>Note the warning provided by <code>dynamicpv</code>. This is because
-the uptake vector for SoC, when trimmed of zeroes after uptake stops,
-has a different (shorter) length than the uptake vector for the new
-intervention. The calculation is still correct. However, the function is
-flagging for the user the different uptake vectors being used for
-different present value calculations.</p>
+<span><span class="va">budget_with1</span> <span class="op">&lt;-</span> <span class="va">budget_with1_new</span></span></code></pre></div>
+<p>The budgetary costs in the world with the new intervention are <span class="math inline">\(32,381,279\)</span>. Finally, we derive the budget
+impact as the difference in costs.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># The uptake vector for the new intervention is long</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/trim_vec.html">trim_vec</a></span><span class="op">(</span><span class="va">uptake_new</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1044</span></span>
-<span></span>
-<span><span class="co"># The uptake vector for the SoC is short, once trimmed of excess zeros</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/trim_vec.html">trim_vec</a></span><span class="op">(</span><span class="va">uptake_soc</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 103</span></span></code></pre></div>
-<p>The budgetary costs in the world with the new intervention are
-$26,964,789, comprising $3,508,178 in respect of the costs of 103
-patients being treated with the SoC, and $23,456,610 in respect of the
-costs of 419 patients being treated with the SoC.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Budget impact</span></span>
-<span><span class="va">bi1_soc</span> <span class="op">&lt;-</span> <span class="va">budget_with1_soc</span> <span class="op">-</span> <span class="va">budget_wout1_soc</span></span>
-<span><span class="co">#&gt; Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length</span></span>
-<span><span class="va">bi1_new</span> <span class="op">&lt;-</span> <span class="va">budget_with1_new</span></span>
 <span><span class="va">bi1</span> <span class="op">&lt;-</span> <span class="va">budget_with1</span> <span class="op">-</span> <span class="va">budget_wout1</span></span>
-<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bi1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Summary of Dynamic Pricing and Uptake</span></span>
 <span><span class="co">#&gt;      Number of cohorts:             261 </span></span>
 <span><span class="co">#&gt;      Number of times:               1 </span></span>
 <span><span class="co">#&gt;      Total uptake:                  0 </span></span>
-<span><span class="co">#&gt;      Total present value:           14041423 </span></span>
+<span><span class="co">#&gt;      Total present value:           19457914 </span></span>
 <span><span class="co">#&gt;      Mean present value:            Inf</span></span></code></pre></div>
-<p>The total budget impact is $14,041,423, representing an increase of
-109%.</p>
+<p>The total budget impact is $19,457,914, representing an increase of
+151%.</p>
 </div>
 <div class="section level3">
-<h3 id="dynamic-prices">Dynamic prices<a class="anchor" aria-label="anchor" href="#dynamic-prices"></a>
+<h3 id="scenario-2-dynamic-pricing-no-dynamic-uptake">Scenario 2: Dynamic pricing, no dynamic uptake<a class="anchor" aria-label="anchor" href="#scenario-2-dynamic-pricing-no-dynamic-uptake"></a>
 </h3>
-<p>Now let us recalculate the budget impact, assuming dynamic pricing in
-drug acquisition costs. This is simple with
-<code>dynamicpv()::dynpv()</code> because we just change the
-<code>prices</code> argument from <code>prices_static</code> to either
-<code>prices_dyn_soc</code> or <code>prices_dyn_new</code> for the drug
-acquisition costs. We will keep other costs unchanged.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Scenario 2 adjusts scenario 1 by assuming instead dynamic pricing of
+the new intervention and SoC. Uptake remains modeled in the
+unconventional static manner. As before, we first calculate the costs of
+the SoC in the ‘world without’ the new intervention.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># World without new intervention</span></span>
 <span></span>
 <span><span class="co"># SoC, drug acquisition costs</span></span>
@@ -302,33 +265,23 @@ acquisition costs. We will keep other costs unchanged.</p>
 <span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
 <span>    <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># SoC, other costs - unchanged from static calculations</span></span>
+<span><span class="co"># SoC, other costs</span></span>
 <span><span class="va">wout2_soc_othcost</span> <span class="op">&lt;-</span> <span class="va">wout1_soc_othcost</span></span>
 <span></span>
 <span><span class="co"># Total budgetary costs</span></span>
-<span><span class="va">budget_wout2</span> <span class="op">&lt;-</span> <span class="va">budget_wout2_soc</span> <span class="op">&lt;-</span> <span class="va">wout2_soc_daqcost</span> <span class="op">+</span> <span class="va">wout2_soc_othcost</span></span></code></pre></div>
+<span><span class="va">budget_wout2_soc</span> <span class="op">&lt;-</span> <span class="va">wout2_soc_daqcost</span> <span class="op">+</span> <span class="va">wout2_soc_othcost</span></span>
+<span><span class="va">budget_wout2_new</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">budget_wout2</span> <span class="op">&lt;-</span> <span class="va">budget_wout2_soc</span></span></code></pre></div>
 <p>The total budgetary costs in the world without are $11,516,132 in
 respect of 522 patients.</p>
-<p>Let us now calculate the budgetary costs in the world with the new
-intervention.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># World with</span></span>
-<span></span>
-<span><span class="co"># SoC, drug acquisition costs</span></span>
-<span><span class="va">with2_soc_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
-<span>    uptakes <span class="op">=</span> <span class="va">uptake_soc</span>,</span>
-<span>    payoffs <span class="op">=</span> <span class="va">hemout_soc</span><span class="op">$</span><span class="va">cost_daq_soc_rup</span>,</span>
-<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
-<span>    prices <span class="op">=</span> <span class="va">prices_dyn_soc</span>,</span>
-<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
-<span>    <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># SoC, other costs</span></span>
-<span><span class="va">with2_soc_othcost</span> <span class="op">&lt;-</span> <span class="va">with1_soc_othcost</span></span>
+<p>Next we derive the costs of the new intervention, in the ‘world with’
+the new intervention.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># World with: SoC are zero</span></span>
 <span></span>
 <span><span class="co"># New intervention, drug acquisition costs</span></span>
 <span><span class="va">with2_new_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
-<span>    uptakes <span class="op">=</span> <span class="va">uptake_new</span>,</span>
+<span>    uptakes <span class="op">=</span> <span class="va">newly_eligible</span>,</span>
 <span>    payoffs <span class="op">=</span> <span class="va">hemout_new</span><span class="op">$</span><span class="va">cost_daq_new_rup</span>,</span>
 <span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
 <span>    prices <span class="op">=</span> <span class="va">prices_dyn_new</span>,</span>
@@ -339,23 +292,198 @@ intervention.</p>
 <span><span class="va">with2_new_othcost</span> <span class="op">&lt;-</span> <span class="va">with1_new_othcost</span></span>
 <span></span>
 <span><span class="co"># Total</span></span>
-<span><span class="va">budget_with2_soc</span> <span class="op">&lt;-</span> <span class="va">with2_soc_daqcost</span> <span class="op">+</span> <span class="va">with2_soc_othcost</span></span>
+<span><span class="va">budget_with2_soc</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span><span class="va">budget_with2_new</span> <span class="op">&lt;-</span> <span class="va">with2_new_daqcost</span> <span class="op">+</span> <span class="va">with2_new_othcost</span></span>
-<span><span class="va">budget_with2</span> <span class="op">&lt;-</span> <span class="va">budget_with2_soc</span> <span class="op">+</span> <span class="va">budget_with2_new</span></span>
+<span><span class="va">budget_with2</span> <span class="op">&lt;-</span> <span class="va">budget_with2_new</span></span></code></pre></div>
+<p>The budgetary costs in the world with the new intervention are <span class="math inline">\(34,359,885\)</span>. Finally again, we derive
+budget impact as the difference.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Budget impact</span></span>
+<span><span class="va">bi2</span> <span class="op">&lt;-</span> <span class="va">budget_with2</span> <span class="op">-</span> <span class="va">budget_wout2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bi2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Summary of Dynamic Pricing and Uptake</span></span>
+<span><span class="co">#&gt;      Number of cohorts:             261 </span></span>
+<span><span class="co">#&gt;      Number of times:               1 </span></span>
+<span><span class="co">#&gt;      Total uptake:                  0 </span></span>
+<span><span class="co">#&gt;      Total present value:           22843753 </span></span>
+<span><span class="co">#&gt;      Mean present value:            Inf</span></span></code></pre></div>
+<p>The total budget impact is $22,843,753, representing an increase of
+198%.</p>
+</div>
+<div class="section level3">
+<h3 id="scenario-3-dynamic-uptake-not-dynamic-pricing">Scenario 3: Dynamic uptake, not dynamic pricing<a class="anchor" aria-label="anchor" href="#scenario-3-dynamic-uptake-not-dynamic-pricing"></a>
+</h3>
+<p>This scenario includes dynamic uptake, which is conventional in
+budget impact analysis, but assumes static prices, i.e. we assume the
+prices of existing resources remain unchanged from now in the horizon of
+the budget impact model. Let us use that function to calculate budgetary
+costs for the world without the new intervention.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># World without new intervention</span></span>
+<span><span class="co"># SoC, drug acquisition costs</span></span>
+<span><span class="va">wout3_soc_daqcost</span> <span class="op">&lt;-</span> <span class="va">wout1_soc_daqcost</span></span>
+<span><span class="co"># SoC, other costs</span></span>
+<span><span class="va">wout3_soc_othcost</span> <span class="op">&lt;-</span> <span class="va">wout1_soc_othcost</span></span>
+<span><span class="co"># Total budgetary costs</span></span>
+<span><span class="va">budget_wout3</span> <span class="op">&lt;-</span> <span class="va">budget_wout3_soc</span> <span class="op">&lt;-</span> <span class="va">wout3_soc_daqcost</span> <span class="op">+</span> <span class="va">wout3_soc_othcost</span></span></code></pre></div>
+<p>The total budgetary costs in the world without are $12,923,366 in
+respect of 522 patients.</p>
+<p>Let us now calculate the budgetary costs in the world with the new
+intervention.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># World with</span></span>
+<span></span>
+<span><span class="co"># SoC, drug acquisition costs</span></span>
+<span><span class="va">with3_soc_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
+<span>    uptakes <span class="op">=</span> <span class="va">uptake_soc</span>,</span>
+<span>    payoffs <span class="op">=</span> <span class="va">hemout_soc</span><span class="op">$</span><span class="va">cost_daq_soc_rup</span>,</span>
+<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
+<span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
+<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># SoC, other costs</span></span>
+<span><span class="va">with3_soc_othcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
+<span>    uptakes <span class="op">=</span> <span class="va">uptake_soc</span>,</span>
+<span>    payoffs <span class="op">=</span> <span class="va">hemout_soc</span><span class="op">$</span><span class="va">cost_nondaq_rup</span>,</span>
+<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
+<span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
+<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># New intervention, drug acquisition costs</span></span>
+<span><span class="va">with3_new_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
+<span>    uptakes <span class="op">=</span> <span class="va">uptake_new</span>,</span>
+<span>    payoffs <span class="op">=</span> <span class="va">hemout_new</span><span class="op">$</span><span class="va">cost_daq_new_rup</span>,</span>
+<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
+<span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
+<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># New intervention, other costs</span></span>
+<span><span class="va">with3_new_othcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
+<span>    uptakes <span class="op">=</span> <span class="va">uptake_new</span>,</span>
+<span>    payoffs <span class="op">=</span> <span class="va">hemout_new</span><span class="op">$</span><span class="va">cost_nondaq_rup</span>,</span>
+<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
+<span>    prices <span class="op">=</span> <span class="va">prices_static</span>,</span>
+<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Total</span></span>
+<span><span class="va">budget_with3_soc</span> <span class="op">&lt;-</span> <span class="va">with3_soc_daqcost</span> <span class="op">+</span> <span class="va">with3_soc_othcost</span></span>
+<span><span class="va">budget_with3_new</span> <span class="op">&lt;-</span> <span class="va">with3_new_daqcost</span> <span class="op">+</span> <span class="va">with3_new_othcost</span></span>
+<span><span class="va">budget_with3</span> <span class="op">&lt;-</span> <span class="va">budget_with3_soc</span> <span class="op">+</span> <span class="va">budget_with3_new</span></span>
+<span><span class="co">#&gt; Warning in addprod(e1, e2, mult = 1): Uptake vectors differ in length</span></span></code></pre></div>
+<p>Note the warning provided by <code>dynamicpv</code>. This is because
+the uptake vector for SoC, when trimmed of zeroes after uptake stops,
+has a different (shorter) length than the uptake vector for the new
+intervention. The calculation is still correct. However, the function is
+flagging for the user the different uptake vectors being used for
+different present value calculations.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The uptake vector for the new intervention is long</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/trim_vec.html">trim_vec</a></span><span class="op">(</span><span class="va">uptake_new</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1044</span></span>
+<span></span>
+<span><span class="co"># The uptake vector for the SoC is short, once trimmed of excess zeros</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/trim_vec.html">trim_vec</a></span><span class="op">(</span><span class="va">uptake_soc</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 103</span></span></code></pre></div>
+<p>The budgetary costs in the world with the new intervention are
+$26,964,789, comprising $3,508,178 in respect of the costs of 103
+patients being treated with the SoC, and $23,456,610 in respect of the
+costs of 419 patients being treated with the SoC.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Budget impact</span></span>
+<span><span class="va">bi3_soc</span> <span class="op">&lt;-</span> <span class="va">budget_with3_soc</span> <span class="op">-</span> <span class="va">budget_wout3_soc</span></span>
+<span><span class="co">#&gt; Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length</span></span>
+<span><span class="va">bi3_new</span> <span class="op">&lt;-</span> <span class="va">budget_with3_new</span></span>
+<span><span class="va">bi3</span> <span class="op">&lt;-</span> <span class="va">budget_with3</span> <span class="op">-</span> <span class="va">budget_wout3</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bi3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Summary of Dynamic Pricing and Uptake</span></span>
+<span><span class="co">#&gt;      Number of cohorts:             261 </span></span>
+<span><span class="co">#&gt;      Number of times:               1 </span></span>
+<span><span class="co">#&gt;      Total uptake:                  0 </span></span>
+<span><span class="co">#&gt;      Total present value:           14041423 </span></span>
+<span><span class="co">#&gt;      Mean present value:            Inf</span></span></code></pre></div>
+<p>The total budget impact is $14,041,423, representing an increase of
+109%.</p>
+</div>
+<div class="section level3">
+<h3 id="scenario-4-dynamic-pricing-and-uptake">Scenario 4: Dynamic pricing and uptake<a class="anchor" aria-label="anchor" href="#scenario-4-dynamic-pricing-and-uptake"></a>
+</h3>
+<p>Now let us recalculate the budget impact, assuming dynamic pricing in
+drug acquisition costs. This is simple with
+<code>dynamicpv()::dynpv()</code> because we just change the
+<code>prices</code> argument from <code>prices_static</code> to either
+<code>prices_dyn_soc</code> or <code>prices_dyn_new</code> for the drug
+acquisition costs. We will keep other costs unchanged.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># World without new intervention</span></span>
+<span></span>
+<span><span class="co"># SoC, drug acquisition costs</span></span>
+<span><span class="va">wout4_soc_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
+<span>    uptakes <span class="op">=</span> <span class="va">newly_eligible</span>,</span>
+<span>    payoffs <span class="op">=</span> <span class="va">hemout_soc</span><span class="op">$</span><span class="va">cost_daq_soc_rup</span>,</span>
+<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
+<span>    prices <span class="op">=</span> <span class="va">prices_dyn_soc</span>,</span>
+<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># SoC, other costs - unchanged from static calculations</span></span>
+<span><span class="va">wout4_soc_othcost</span> <span class="op">&lt;-</span> <span class="va">wout3_soc_othcost</span></span>
+<span></span>
+<span><span class="co"># Total budgetary costs</span></span>
+<span><span class="va">budget_wout4</span> <span class="op">&lt;-</span> <span class="va">budget_wout4_soc</span> <span class="op">&lt;-</span> <span class="va">wout4_soc_daqcost</span> <span class="op">+</span> <span class="va">wout4_soc_othcost</span></span></code></pre></div>
+<p>The total budgetary costs in the world without are $11,516,132 in
+respect of 522 patients.</p>
+<p>Let us now calculate the budgetary costs in the world with the new
+intervention.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># World with</span></span>
+<span></span>
+<span><span class="co"># SoC, drug acquisition costs</span></span>
+<span><span class="va">with4_soc_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
+<span>    uptakes <span class="op">=</span> <span class="va">uptake_soc</span>,</span>
+<span>    payoffs <span class="op">=</span> <span class="va">hemout_soc</span><span class="op">$</span><span class="va">cost_daq_soc_rup</span>,</span>
+<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
+<span>    prices <span class="op">=</span> <span class="va">prices_dyn_soc</span>,</span>
+<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># SoC, other costs</span></span>
+<span><span class="va">with4_soc_othcost</span> <span class="op">&lt;-</span> <span class="va">with3_soc_othcost</span></span>
+<span></span>
+<span><span class="co"># New intervention, drug acquisition costs</span></span>
+<span><span class="va">with4_new_daqcost</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dynpv.html">dynpv</a></span><span class="op">(</span></span>
+<span>    uptakes <span class="op">=</span> <span class="va">uptake_new</span>,</span>
+<span>    payoffs <span class="op">=</span> <span class="va">hemout_new</span><span class="op">$</span><span class="va">cost_daq_new_rup</span>,</span>
+<span>    horizon <span class="op">=</span> <span class="va">bi_horizon_wks</span>,</span>
+<span>    prices <span class="op">=</span> <span class="va">prices_dyn_new</span>,</span>
+<span>    discrate <span class="op">=</span> <span class="va">bi_discount</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># New intervention, other costs</span></span>
+<span><span class="va">with4_new_othcost</span> <span class="op">&lt;-</span> <span class="va">with3_new_othcost</span></span>
+<span></span>
+<span><span class="co"># Total</span></span>
+<span><span class="va">budget_with4_soc</span> <span class="op">&lt;-</span> <span class="va">with4_soc_daqcost</span> <span class="op">+</span> <span class="va">with4_soc_othcost</span></span>
+<span><span class="va">budget_with4_new</span> <span class="op">&lt;-</span> <span class="va">with4_new_daqcost</span> <span class="op">+</span> <span class="va">with4_new_othcost</span></span>
+<span><span class="va">budget_with4</span> <span class="op">&lt;-</span> <span class="va">budget_with4_soc</span> <span class="op">+</span> <span class="va">budget_with4_new</span></span>
 <span><span class="co">#&gt; Warning in addprod(e1, e2, mult = 1): Uptake vectors differ in length</span></span></code></pre></div>
 <p>Notice that there is a similar warning as earlier. The budgetary
 costs in the world with the new intervention are $28,535,724, comprising
 $3,460,107 in respect of the costs of 103 patients being treated with
-the SoC, and $25,075,617 in respect of the costs of 419 patients being
+the SoC, and $34,359,885 in respect of the costs of 419 patients being
 treated with the new treatment.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Budget impact</span></span>
-<span><span class="va">bi2_soc</span> <span class="op">&lt;-</span> <span class="va">budget_with2_soc</span> <span class="op">-</span> <span class="va">budget_wout2_soc</span></span>
+<span><span class="va">bi4_soc</span> <span class="op">&lt;-</span> <span class="va">budget_with4_soc</span> <span class="op">-</span> <span class="va">budget_wout4_soc</span></span>
 <span><span class="co">#&gt; Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length</span></span>
-<span><span class="va">bi2_new</span> <span class="op">&lt;-</span> <span class="va">budget_with2_new</span></span>
-<span><span class="va">bi2</span> <span class="op">&lt;-</span> <span class="va">budget_with2</span> <span class="op">-</span> <span class="va">budget_wout2</span></span>
+<span><span class="va">bi4_new</span> <span class="op">&lt;-</span> <span class="va">budget_with4_new</span></span>
+<span><span class="va">bi4</span> <span class="op">&lt;-</span> <span class="va">budget_with4</span> <span class="op">-</span> <span class="va">budget_wout4</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bi2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bi4</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Summary of Dynamic Pricing and Uptake</span></span>
 <span><span class="co">#&gt;      Number of cohorts:             261 </span></span>
 <span><span class="co">#&gt;      Number of times:               1 </span></span>
@@ -368,19 +496,46 @@ treated with the new treatment.</p>
 <div class="section level3">
 <h3 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h3>
-<table class="table">
-<caption>Budget Impact model results with and without dynamic drug
-pricing</caption>
+<table style="width:100%;" class="table">
+<caption>Budget Impact model result by scenario</caption>
+<colgroup>
+<col width="7%">
+<col width="5%">
+<col width="21%">
+<col width="21%">
+<col width="21%">
+<col width="21%">
+</colgroup>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="left"></th>
-<th>Static drug pricing</th>
-<th>Dynamic drug pricing</th>
+<th>Scenario 1</th>
+<th>Scenario 2</th>
+<th>Scenario 3</th>
+<th>Scenario 4</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left">Dynamic pricing?</td>
+<td align="left"></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td align="left">Dynamic uptake?</td>
+<td align="left"></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
 <td align="left">World without new intervention</td>
 <td align="left"></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -389,16 +544,22 @@ pricing</caption>
 <td align="left">Standard of Care</td>
 <td>12,923,366</td>
 <td>11,516,132</td>
+<td>12,923,366</td>
+<td>11,516,132</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">New intervention</td>
 <td>0</td>
 <td>0</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Total</td>
+<td>12,923,366</td>
+<td>11,516,132</td>
 <td>12,923,366</td>
 <td>11,516,132</td>
 </tr>
@@ -407,22 +568,30 @@ pricing</caption>
 <td align="left"></td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Standard of Care</td>
+<td>0</td>
+<td>0</td>
 <td>3,508,178</td>
 <td>3,460,107</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">New intervention</td>
+<td>32,381,279</td>
+<td>34,359,885</td>
 <td>23,456,610</td>
 <td>25,075,617</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Total</td>
+<td>32,381,279</td>
+<td>34,359,885</td>
 <td>26,964,789</td>
 <td>25,075,617</td>
 </tr>
@@ -431,28 +600,38 @@ pricing</caption>
 <td align="left"></td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Standard of Care</td>
+<td>-12,923,366</td>
+<td>-11,516,132</td>
 <td>-9,415,187</td>
 <td>-8,056,025</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">New intervention</td>
+<td>32,381,279</td>
+<td>34,359,885</td>
 <td>23,456,610</td>
 <td>25,075,617</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">Absolute impact</td>
+<td>19,457,914</td>
+<td>22,843,753</td>
 <td>14,041,423</td>
 <td>17,019,592</td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">Relative impact (%)</td>
+<td>151%</td>
+<td>198%</td>
 <td>109%</td>
 <td>148%</td>
 </tr>

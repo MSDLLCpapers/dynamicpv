@@ -82,12 +82,14 @@ uptake_soc <- newly_eligible - uptake_new
 
 ## Results
 
-### Static prices
+### Scenario 1: No dynamic uptake or pricing
 
-First we consider static prices, i.e. we assume the prices of existing
-resources remain unchanged from now in the horizon of the budget impact
-model. Let us use that function to calculate budgetary costs for the
-world without the new intervention.
+This scenario assumes static uptake, i.e. that uptake is immediate and
+100% of eligible patients. This is an unconventional approach for a
+budget impact analysis. The analysis also assumes static prices, i.e. we
+assume the prices of existing resources remain unchanged from now in the
+horizon of the budget impact model. First we calculate costs with the
+SoC, in the ‘world without’ the new intervention.
 
 ``` r
 # World without new intervention
@@ -111,7 +113,153 @@ wout1_soc_othcost <- dynpv(
     )
 
 # Total budgetary costs
-budget_wout1 <- budget_wout1_soc <- wout1_soc_daqcost + wout1_soc_othcost
+budget_wout1_soc <- wout1_soc_daqcost + wout1_soc_othcost
+budget_wout1_new <- 0
+budget_wout1 <- budget_wout1_soc
+```
+
+The total budgetary costs in the world without are \$12,923,366 in
+respect of 522 patients.
+
+Next we calculate costs with the new treatment, in the ‘world with’ the
+new intervention.
+
+``` r
+# World with: SoC are zero
+
+# New intervention, drug acquisition costs
+with1_new_daqcost <- dynpv(
+    uptakes = newly_eligible,
+    payoffs = hemout_new$cost_daq_new_rup,
+    horizon = bi_horizon_wks,
+    prices = prices_static,
+    discrate = bi_discount
+    )
+
+# New intervention, other costs
+with1_new_othcost <- dynpv(
+    uptakes = newly_eligible,
+    payoffs = hemout_new$cost_nondaq_rup,
+    horizon = bi_horizon_wks,
+    prices = prices_static,
+    discrate = bi_discount
+    )
+
+# Total
+budget_with1_soc <- 0
+budget_with1_new <- with1_new_daqcost + with1_new_othcost
+budget_with1 <- budget_with1_new
+```
+
+The budgetary costs in the world with the new intervention are
+\\32,381,279\\. Finally, we derive the budget impact as the difference
+in costs.
+
+``` r
+# Budget impact
+bi1 <- budget_with1 - budget_wout1
+summary(bi1)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             261 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           19457914 
+#>      Mean present value:            Inf
+```
+
+The total budget impact is \$19,457,914, representing an increase of
+151%.
+
+### Scenario 2: Dynamic pricing, no dynamic uptake
+
+Scenario 2 adjusts scenario 1 by assuming instead dynamic pricing of the
+new intervention and SoC. Uptake remains modeled in the unconventional
+static manner. As before, we first calculate the costs of the SoC in the
+‘world without’ the new intervention.
+
+``` r
+# World without new intervention
+
+# SoC, drug acquisition costs
+wout2_soc_daqcost <- dynpv(
+    uptakes = newly_eligible,
+    payoffs = hemout_soc$cost_daq_soc_rup,
+    horizon = bi_horizon_wks,
+    prices = prices_dyn_soc,
+    discrate = bi_discount
+    )
+
+# SoC, other costs
+wout2_soc_othcost <- wout1_soc_othcost
+
+# Total budgetary costs
+budget_wout2_soc <- wout2_soc_daqcost + wout2_soc_othcost
+budget_wout2_new <- 0
+budget_wout2 <- budget_wout2_soc
+```
+
+The total budgetary costs in the world without are \$11,516,132 in
+respect of 522 patients.
+
+Next we derive the costs of the new intervention, in the ‘world with’
+the new intervention.
+
+``` r
+# World with: SoC are zero
+
+# New intervention, drug acquisition costs
+with2_new_daqcost <- dynpv(
+    uptakes = newly_eligible,
+    payoffs = hemout_new$cost_daq_new_rup,
+    horizon = bi_horizon_wks,
+    prices = prices_dyn_new,
+    discrate = bi_discount
+    )
+
+# New intervention, other costs
+with2_new_othcost <- with1_new_othcost
+
+# Total
+budget_with2_soc <- 0
+budget_with2_new <- with2_new_daqcost + with2_new_othcost
+budget_with2 <- budget_with2_new
+```
+
+The budgetary costs in the world with the new intervention are
+\\34,359,885\\. Finally again, we derive budget impact as the
+difference.
+
+``` r
+# Budget impact
+bi2 <- budget_with2 - budget_wout2
+summary(bi2)
+#> Summary of Dynamic Pricing and Uptake
+#>      Number of cohorts:             261 
+#>      Number of times:               1 
+#>      Total uptake:                  0 
+#>      Total present value:           22843753 
+#>      Mean present value:            Inf
+```
+
+The total budget impact is \$22,843,753, representing an increase of
+198%.
+
+### Scenario 3: Dynamic uptake, not dynamic pricing
+
+This scenario includes dynamic uptake, which is conventional in budget
+impact analysis, but assumes static prices, i.e. we assume the prices of
+existing resources remain unchanged from now in the horizon of the
+budget impact model. Let us use that function to calculate budgetary
+costs for the world without the new intervention.
+
+``` r
+# World without new intervention
+# SoC, drug acquisition costs
+wout3_soc_daqcost <- wout1_soc_daqcost
+# SoC, other costs
+wout3_soc_othcost <- wout1_soc_othcost
+# Total budgetary costs
+budget_wout3 <- budget_wout3_soc <- wout3_soc_daqcost + wout3_soc_othcost
 ```
 
 The total budgetary costs in the world without are \$12,923,366 in
@@ -124,7 +272,7 @@ intervention.
 # World with
 
 # SoC, drug acquisition costs
-with1_soc_daqcost <- dynpv(
+with3_soc_daqcost <- dynpv(
     uptakes = uptake_soc,
     payoffs = hemout_soc$cost_daq_soc_rup,
     horizon = bi_horizon_wks,
@@ -133,7 +281,7 @@ with1_soc_daqcost <- dynpv(
     )
 
 # SoC, other costs
-with1_soc_othcost <- dynpv(
+with3_soc_othcost <- dynpv(
     uptakes = uptake_soc,
     payoffs = hemout_soc$cost_nondaq_rup,
     horizon = bi_horizon_wks,
@@ -142,7 +290,7 @@ with1_soc_othcost <- dynpv(
     )
 
 # New intervention, drug acquisition costs
-with1_new_daqcost <- dynpv(
+with3_new_daqcost <- dynpv(
     uptakes = uptake_new,
     payoffs = hemout_new$cost_daq_new_rup,
     horizon = bi_horizon_wks,
@@ -151,7 +299,7 @@ with1_new_daqcost <- dynpv(
     )
 
 # New intervention, other costs
-with1_new_othcost <- dynpv(
+with3_new_othcost <- dynpv(
     uptakes = uptake_new,
     payoffs = hemout_new$cost_nondaq_rup,
     horizon = bi_horizon_wks,
@@ -160,9 +308,9 @@ with1_new_othcost <- dynpv(
     )
 
 # Total
-budget_with1_soc <- with1_soc_daqcost + with1_soc_othcost
-budget_with1_new <- with1_new_daqcost + with1_new_othcost
-budget_with1 <- budget_with1_soc + budget_with1_new
+budget_with3_soc <- with3_soc_daqcost + with3_soc_othcost
+budget_with3_new <- with3_new_daqcost + with3_new_othcost
+budget_with3 <- budget_with3_soc + budget_with3_new
 #> Warning in addprod(e1, e2, mult = 1): Uptake vectors differ in length
 ```
 
@@ -190,12 +338,12 @@ costs of 419 patients being treated with the SoC.
 
 ``` r
 # Budget impact
-bi1_soc <- budget_with1_soc - budget_wout1_soc
+bi3_soc <- budget_with3_soc - budget_wout3_soc
 #> Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length
-bi1_new <- budget_with1_new
-bi1 <- budget_with1 - budget_wout1
+bi3_new <- budget_with3_new
+bi3 <- budget_with3 - budget_wout3
 
-summary(bi1)
+summary(bi3)
 #> Summary of Dynamic Pricing and Uptake
 #>      Number of cohorts:             261 
 #>      Number of times:               1 
@@ -207,7 +355,7 @@ summary(bi1)
 The total budget impact is \$14,041,423, representing an increase of
 109%.
 
-### Dynamic prices
+### Scenario 4: Dynamic pricing and uptake
 
 Now let us recalculate the budget impact, assuming dynamic pricing in
 drug acquisition costs. This is simple with `dynamicpv()::dynpv()`
@@ -219,7 +367,7 @@ costs. We will keep other costs unchanged.
 # World without new intervention
 
 # SoC, drug acquisition costs
-wout2_soc_daqcost <- dynpv(
+wout4_soc_daqcost <- dynpv(
     uptakes = newly_eligible,
     payoffs = hemout_soc$cost_daq_soc_rup,
     horizon = bi_horizon_wks,
@@ -228,10 +376,10 @@ wout2_soc_daqcost <- dynpv(
     )
 
 # SoC, other costs - unchanged from static calculations
-wout2_soc_othcost <- wout1_soc_othcost
+wout4_soc_othcost <- wout3_soc_othcost
 
 # Total budgetary costs
-budget_wout2 <- budget_wout2_soc <- wout2_soc_daqcost + wout2_soc_othcost
+budget_wout4 <- budget_wout4_soc <- wout4_soc_daqcost + wout4_soc_othcost
 ```
 
 The total budgetary costs in the world without are \$11,516,132 in
@@ -244,7 +392,7 @@ intervention.
 # World with
 
 # SoC, drug acquisition costs
-with2_soc_daqcost <- dynpv(
+with4_soc_daqcost <- dynpv(
     uptakes = uptake_soc,
     payoffs = hemout_soc$cost_daq_soc_rup,
     horizon = bi_horizon_wks,
@@ -253,10 +401,10 @@ with2_soc_daqcost <- dynpv(
     )
 
 # SoC, other costs
-with2_soc_othcost <- with1_soc_othcost
+with4_soc_othcost <- with3_soc_othcost
 
 # New intervention, drug acquisition costs
-with2_new_daqcost <- dynpv(
+with4_new_daqcost <- dynpv(
     uptakes = uptake_new,
     payoffs = hemout_new$cost_daq_new_rup,
     horizon = bi_horizon_wks,
@@ -265,29 +413,29 @@ with2_new_daqcost <- dynpv(
     )
 
 # New intervention, other costs
-with2_new_othcost <- with1_new_othcost
+with4_new_othcost <- with3_new_othcost
 
 # Total
-budget_with2_soc <- with2_soc_daqcost + with2_soc_othcost
-budget_with2_new <- with2_new_daqcost + with2_new_othcost
-budget_with2 <- budget_with2_soc + budget_with2_new
+budget_with4_soc <- with4_soc_daqcost + with4_soc_othcost
+budget_with4_new <- with4_new_daqcost + with4_new_othcost
+budget_with4 <- budget_with4_soc + budget_with4_new
 #> Warning in addprod(e1, e2, mult = 1): Uptake vectors differ in length
 ```
 
 Notice that there is a similar warning as earlier. The budgetary costs
 in the world with the new intervention are \$28,535,724, comprising
 \$3,460,107 in respect of the costs of 103 patients being treated with
-the SoC, and \$25,075,617 in respect of the costs of 419 patients being
+the SoC, and \$34,359,885 in respect of the costs of 419 patients being
 treated with the new treatment.
 
 ``` r
 # Budget impact
-bi2_soc <- budget_with2_soc - budget_wout2_soc
+bi4_soc <- budget_with4_soc - budget_wout4_soc
 #> Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length
-bi2_new <- budget_with2_new
-bi2 <- budget_with2 - budget_wout2
+bi4_new <- budget_with4_new
+bi4 <- budget_with4 - budget_wout4
 
-summary(bi2)
+summary(bi4)
 #> Summary of Dynamic Pricing and Uptake
 #>      Number of cohorts:             261 
 #>      Number of times:               1 
@@ -301,23 +449,25 @@ The total budget impact is \$17,019,592, representing an increase of
 
 ### Summary
 
-|                                |                     | Static drug pricing | Dynamic drug pricing |
-|:-------------------------------|:--------------------|---------------------|----------------------|
-| World without new intervention |                     |                     |                      |
-|                                | Standard of Care    | 12,923,366          | 11,516,132           |
-|                                | New intervention    | 0                   | 0                    |
-|                                | Total               | 12,923,366          | 11,516,132           |
-| World with new intervention    |                     |                     |                      |
-|                                | Standard of Care    | 3,508,178           | 3,460,107            |
-|                                | New intervention    | 23,456,610          | 25,075,617           |
-|                                | Total               | 26,964,789          | 25,075,617           |
-| Budget impact                  |                     |                     |                      |
-|                                | Standard of Care    | -9,415,187          | -8,056,025           |
-|                                | New intervention    | 23,456,610          | 25,075,617           |
-|                                | Absolute impact     | 14,041,423          | 17,019,592           |
-|                                | Relative impact (%) | 109%                | 148%                 |
+|                                |                     | Scenario 1  | Scenario 2  | Scenario 3 | Scenario 4 |
+|:-------------------------------|:--------------------|-------------|-------------|------------|------------|
+| Dynamic pricing?               |                     | No          | Yes         | No         | Yes        |
+| Dynamic uptake?                |                     | No          | No          | Yes        | Yes        |
+| World without new intervention |                     |             |             |            |            |
+|                                | Standard of Care    | 12,923,366  | 11,516,132  | 12,923,366 | 11,516,132 |
+|                                | New intervention    | 0           | 0           | 0          | 0          |
+|                                | Total               | 12,923,366  | 11,516,132  | 12,923,366 | 11,516,132 |
+| World with new intervention    |                     |             |             |            |            |
+|                                | Standard of Care    | 0           | 0           | 3,508,178  | 3,460,107  |
+|                                | New intervention    | 32,381,279  | 34,359,885  | 23,456,610 | 25,075,617 |
+|                                | Total               | 32,381,279  | 34,359,885  | 26,964,789 | 25,075,617 |
+| Budget impact                  |                     |             |             |            |            |
+|                                | Standard of Care    | -12,923,366 | -11,516,132 | -9,415,187 | -8,056,025 |
+|                                | New intervention    | 32,381,279  | 34,359,885  | 23,456,610 | 25,075,617 |
+|                                | Absolute impact     | 19,457,914  | 22,843,753  | 14,041,423 | 17,019,592 |
+|                                | Relative impact (%) | 151%        | 198%        | 109%       | 148%       |
 
-Budget Impact model results with and without dynamic drug pricing
+Budget Impact model result by scenario
 
 ## Discussion
 
