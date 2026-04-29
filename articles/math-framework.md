@@ -169,10 +169,10 @@ Global Health* 6 (6): e005673.
 <https://doi.org/10.1136/bmjgh-2021-005673>.
 
 Enright, Daniel E., Emma G. van Duijnhoven, Daniel A. Ollendorf, and
-James D. Chambers. 2025. “Use of Health Technology Assessments in
-Specialty Drug Coverage Decisions by US Commercial Health Plans.”
-*Journal of Managed Care & Specialty Pharmacy* 31 (3): 289–95.
-<https://www.jmcp.org/doi/10.18553/jmcp.2025.31.3.289>.
+James D. Chambers. 2025. “[Use of Health Technology Assessments in
+Specialty Drug Coverage Decisions by US Commercial Health
+Plans](https://www.ncbi.nlm.nih.gov/pmc/articles/11871157).” *Journal of
+Managed Care & Specialty Pharmacy* 31 (3): 289–95.
 
 Espinosa, Oscar, Paul Rodríguez-Lesmes, Giancarlo Romano, Esteban
 Orozco, Sergio Basto, Diego Ávila, Lorena Mesa, and Hernán Enríquez.

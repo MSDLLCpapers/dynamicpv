@@ -1,5 +1,12 @@
 # Changelog
 
+## dynamicpv 0.4.2
+
+- Adds dependency to ‘heemod’ packages. Previously this package was
+  merely *Suggests*. It has been upgraded to *Imports* because it is
+  used in generating the data file ‘oncpsm’ included with the package,
+  and is referred to extensively in vignettes.
+
 ## dynamicpv 0.4.1
 
 CRAN release: 2026-01-15

@@ -25,7 +25,7 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Dominic Muston <dominic.muston@msd.com>
+**Maintainer**: Dominic Muston <dom.muston@gmail.com>
 ([ORCID](https://orcid.org/0000-0003-4876-7940))
 
 Other contributors:
