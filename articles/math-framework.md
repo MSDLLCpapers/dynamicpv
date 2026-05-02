@@ -123,15 +123,15 @@ The
 function operationalizes the formula above. It produces output of the
 class ‘dynpv’, to which the following methods may be applied.
 
-| Method                                                                             | Description                                                       | Value                                                                                                                                                                                  |
-|------------------------------------------------------------------------------------|-------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`mean()`](https://rdrr.io/r/base/mean.html)                                       | Mean present value per uptaking patient                           | \\TPV(l) / \sum\_{j=1}^{T} u_j =\\ [`total()`](https://MSDLLCpapers.github.io/dynamicpv/reference/total.md)/[`uptake()`](https://MSDLLCpapers.github.io/dynamicpv/reference/uptake.md) |
-| [`ncoh()`](https://MSDLLCpapers.github.io/dynamicpv/reference/ncoh.md)             | Number of cohorts of uptaking patients                            | \\n({u_j})\\                                                                                                                                                                           |
-| [`ntimes()`](https://MSDLLCpapers.github.io/dynamicpv/reference/ntimes.md)         | Number of times at which present value calculations are performed | \\n({l})\\                                                                                                                                                                             |
-| [`sum_by_coh()`](https://MSDLLCpapers.github.io/dynamicpv/reference/sum_by_coh.md) | Present value for each uptake cohort `j` and calculation time `l` | \\\sum\_{k=1}^{T-j+1} PV(j,k,l)\\                                                                                                                                                      |
-| [`summary()`](https://rdrr.io/r/base/summary.html)                                 | Summarize a `dynpv` object                                        | Text                                                                                                                                                                                   |
-| [`total()`](https://MSDLLCpapers.github.io/dynamicpv/reference/total.md)           | Total present value                                               | \\TPV(l)\\                                                                                                                                                                             |
-| [`uptake()`](https://MSDLLCpapers.github.io/dynamicpv/reference/uptake.md)         | Total number of uptaking patients                                 | \\\sum\_{j=1}^{T} u_j\\                                                                                                                                                                |
+| Method | Description | Value |
+|----|----|----|
+| [`mean()`](https://rdrr.io/r/base/mean.html) | Mean present value per uptaking patient | \\TPV(l) / \sum\_{j=1}^{T} u_j =\\ [`total()`](https://MSDLLCpapers.github.io/dynamicpv/reference/total.md)/[`uptake()`](https://MSDLLCpapers.github.io/dynamicpv/reference/uptake.md) |
+| [`ncoh()`](https://MSDLLCpapers.github.io/dynamicpv/reference/ncoh.md) | Number of cohorts of uptaking patients | \\n({u_j})\\ |
+| [`ntimes()`](https://MSDLLCpapers.github.io/dynamicpv/reference/ntimes.md) | Number of times at which present value calculations are performed | \\n({l})\\ |
+| [`sum_by_coh()`](https://MSDLLCpapers.github.io/dynamicpv/reference/sum_by_coh.md) | Present value for each uptake cohort `j` and calculation time `l` | \\\sum\_{k=1}^{T-j+1} PV(j,k,l)\\ |
+| [`summary()`](https://rdrr.io/r/base/summary.html) | Summarize a `dynpv` object | Text |
+| [`total()`](https://MSDLLCpapers.github.io/dynamicpv/reference/total.md) | Total present value | \\TPV(l)\\ |
+| [`uptake()`](https://MSDLLCpapers.github.io/dynamicpv/reference/uptake.md) | Total number of uptaking patients | \\\sum\_{j=1}^{T} u_j\\ |
 
 Also, methods `+` and `-` can be used to add and subtract two `dynpv`
 objects. It is important to note when interpreting the
@@ -174,9 +174,8 @@ Specialty Drug Coverage Decisions by US Commercial Health
 Plans](https://www.ncbi.nlm.nih.gov/pmc/articles/11871157).” *Journal of
 Managed Care & Specialty Pharmacy* 31 (3): 289–95.
 
-Espinosa, Oscar, Paul Rodríguez-Lesmes, Giancarlo Romano, Esteban
-Orozco, Sergio Basto, Diego Ávila, Lorena Mesa, and Hernán Enríquez.
-2024. “Use of Cost-Effectiveness Thresholds in Healthcare Public Policy:
+Espinosa, Oscar, Paul Rodríguez-Lesmes, Giancarlo Romano, et al. 2024.
+“Use of Cost-Effectiveness Thresholds in Healthcare Public Policy:
 Progress and Challenges.” *Applied Health Economics and Health Policy*
 22 (6): 797–804. <https://doi.org/10.1007/s40258-024-00900-5>.
 
@@ -210,8 +209,7 @@ Account for Drug Genericization? A Literature Review and Assessment of
 Implications.” *Value in Health* 25 (1): 59–68.
 <https://doi.org/10.1016/j.jval.2021.06.014>.
 
-Puls, Mathilde, James Horscroft, Benjamin Kearns, Daniel Gladwell,
-Edward Church, Kasper Johannesen, Bill Malcolm, and John Borrill. 2024.
+Puls, Mathilde, James Horscroft, Benjamin Kearns, et al. 2024.
 “Challenges of Incorporating Life Cycle Drug Pricing in
 Cost-Effectiveness Models: A Review of Methods and Modeling
 Suggestions.” *Value in Health* 27 (7): 978–85.
@@ -228,18 +226,15 @@ Serra-Burriel, M., N. Martin-Bassols, G. Perényi, and K. N. Vokinger.
 Implications for Cost-Effectiveness Analyses.” *JAMA Health Forum* 5
 (8): e242530. <https://doi.org/10.1001/jamahealthforum.2024.2530>.
 
-Shafrin, Jason, Jaehong Kim, Joshua T. Cohen, Louis P. Garrison, Dana A.
-Goldman, Jalpa A. Doshi, Joshua Krieger, et al. 2024. “Valuing the
+Shafrin, Jason, Jaehong Kim, Joshua T. Cohen, et al. 2024. “Valuing the
 Societal Impact of Medicines and Other Health Technologies: A User Guide
 to Current Best Practices.” *Forum for Health Economics & Policy* 27
 (1): 29–116. <https://doi.org/10.1515/fhep-2024-0014>.
 
-Sullivan, Sean D., Josephine A. Mauskopf, Federico Augustovski, J. Jaime
-Caro, Karen M. Lee, Mark Minchin, Ewa Orlewska, Pete Penna, Jose-Manuel
-Rodriguez Barrios, and Wen-Yi Shau. 2014. “Budget Impact
-Analysis—Principles of Good Practice: Report of the ISPOR 2012 Budget
-Impact Analysis Good Practice II Task Force.” *Value in Health* 17 (1):
-5–14. <https://doi.org/10.1016/j.jval.2013.08.2291>.
+Sullivan, Sean D., Josephine A. Mauskopf, Federico Augustovski, et al.
+2014. “Budget Impact Analysis—Principles of Good Practice: Report of the
+ISPOR 2012 Budget Impact Analysis Good Practice II Task Force.” *Value
+in Health* 17 (1): 5–14. <https://doi.org/10.1016/j.jval.2013.08.2291>.
 
 Whittington, Melanie D., Joshua T. Cohen, Peter J. Neumann, Tyler D.
 Wagner, and Jonathan D. Campbell. 2025. “Identifying the Influential

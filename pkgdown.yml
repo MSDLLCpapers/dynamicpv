@@ -1,4 +1,4 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
@@ -6,7 +6,7 @@ articles:
   cost-effectiveness-applications: cost-effectiveness-applications.html
   math-framework: math-framework.html
   net-present-value: net-present-value.html
-last_built: 2026-04-29T21:57Z
+last_built: 2026-05-02T19:39Z
 urls:
   reference: https://MSDLLCpapers.github.io/dynamicpv/reference
   article: https://MSDLLCpapers.github.io/dynamicpv/articles

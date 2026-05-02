@@ -86,6 +86,7 @@ intervention.
 First we load the packages necessary for this vignette.
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(lubridate)
@@ -99,6 +100,7 @@ We code the time constants, time horizon, discount rates and inflation
 rates first.
 
 ``` r
+
 # Time constants
 days_in_year <- 365.25
 days_in_week <- 7
@@ -127,6 +129,7 @@ The cost-effectiveness model may then be coded in
 [heemod](https://cran.r-project.org/package=heemod) as follows.
 
 ``` r
+
 # State names
 state_names = c(
   progression_free = "PF",
@@ -288,6 +291,7 @@ heemodel <- heemod::run_model(
 The dynamic pricing assumptions can be codified as follows.
 
 ``` r
+
 # Dates
 # Date of calculation = 1 September 2025
 doc <- lubridate::ymd("20250901")
@@ -339,6 +343,7 @@ prices_dyn_new <- pricetib$dyn_new
 The dynamic uptake assumptions can be codified as follows.
 
 ``` r
+
 # Time for uptake to occur
 uptake_years <- 2
 
@@ -358,6 +363,7 @@ uptake_multi <- rep(1, Ncycles) * share_multi
 The conventional cost-effectiveness model is static.
 
 ``` r
+
 heemodel
 #> 2 strategies run for 1044 cycles.
 #> 
@@ -413,6 +419,7 @@ than discounted to time zero. The rolled-up values are what
 requires.
 
 ``` r
+
 # Pull out the payoffs of interest from oncpsm
 payoffs <- get_dynfields(
     heemodel = heemodel,
@@ -472,6 +479,7 @@ Other costs rise in line with general price inflation
 (`discrate=disc_cycle`).
 
 ``` r
+
 # SOC, costs other than drug acquisition
 s1_soc_othcost <- dynamicpv::dynpv(
     uptakes = uptake_single,
@@ -569,6 +577,7 @@ applying the relevant dynamic price index (`prices_dyn_soc` and
 from Scenario 1.
 
 ``` r
+
 # SOC, costs other than drug acquisition are unchanged
 s2_soc_othcost <- s1_soc_othcost
 
@@ -641,6 +650,7 @@ The calculation for Scenario 3 is the same as for Scenario 1 except for
 dynamic uptake, which is handled by setting `uptakes = uptake_multi`.
 
 ``` r
+
 # SOC, costs other than drug acquisition
 s3_soc_othcost <- dynamicpv::dynpv(
     uptakes = uptake_multi,
@@ -736,6 +746,7 @@ Scenario 3 through applying the relevant dynamic price index
 unchanged from Scenario 3.
 
 ``` r
+
 # SOC, costs other than drug acquisition are unchanged
 s4_soc_othcost <- s3_soc_othcost
 
@@ -810,30 +821,30 @@ below. The results above are skewed by the fact that some scenarios
 represent more than one patient cohort. Presenting results per patient,
 allows easier comparison between the scenarios.
 
-|                           |                  | Scenario 1 | Scenario 2 | Scenario 3  | Scenario 4 |
-|:--------------------------|:-----------------|------------|------------|-------------|------------|
-| Dynamic pricing?          |                  | No         | Yes        | No          | Yes        |
-| Dynamic uptake?           |                  | No         | No         | Yes         | Yes        |
-| Cohort size               |                  | 1          | 1          | 992         | 992        |
-| Total costs (cohort)      |                  |            |            |             |            |
-|                           | New intervention | 194,157    | 191,248    | 129,401,743 | 91,698,157 |
-|                           | Standard of care | 77,123     | 76,428     | 51,390,888  | 42,443,090 |
-|                           | Incremental      | 117,034    | 114,820    | 78,010,854  | 49,255,066 |
-| Total costs (per patient) |                  |            |            |             |            |
-|                           | New intervention | 194,157    | 191,248    | 130,380     | 92,391     |
-|                           | Standard of care | 77,123     | 76,428     | 51,779      | 42,764     |
-|                           | Incremental      | 117,034    | 114,820    | 78,600      | 49,627     |
-| Total QALYs (cohort)      |                  |            |            |             |            |
-|                           | New intervention | 2.08       | 2.08       | 1,309       | 1,309      |
-|                           | Standard of care | 1.154      | 1.154      | 788         | 788        |
-|                           | Incremental      | 0.926      | 0.926      | 521         | 521        |
-| Total QALYs (per patient) |                  |            |            |             |            |
-|                           | New intervention | 2.08       | 2.08       | 1.319       | 1.319      |
-|                           | Standard of care | 1.154      | 1.154      | 0.794       | 0.794      |
-|                           | Incremental      | 0.926      | 0.926      | 0.525       | 0.525      |
-| ICER                      |                  | 126,451    | 124,059    | 149,782     | 94,570     |
+|  |  | Scenario 1 | Scenario 2 | Scenario 3 | Scenario 4 |
+|:---|:---|----|----|----|----|
+| Dynamic pricing? |  | No | Yes | No | Yes |
+| Dynamic uptake? |  | No | No | Yes | Yes |
+| Cohort size |  | 1 | 1 | 992 | 992 |
+| Total costs (cohort) |  |  |  |  |  |
+|  | New intervention | 194,157 | 191,248 | 129,401,743 | 91,698,157 |
+|  | Standard of care | 77,123 | 76,428 | 51,390,888 | 42,443,090 |
+|  | Incremental | 117,034 | 114,820 | 78,010,854 | 49,255,066 |
+| Total costs (per patient) |  |  |  |  |  |
+|  | New intervention | 194,157 | 191,248 | 130,380 | 92,391 |
+|  | Standard of care | 77,123 | 76,428 | 51,779 | 42,764 |
+|  | Incremental | 117,034 | 114,820 | 78,600 | 49,627 |
+| Total QALYs (cohort) |  |  |  |  |  |
+|  | New intervention | 2.08 | 2.08 | 1,309 | 1,309 |
+|  | Standard of care | 1.154 | 1.154 | 788 | 788 |
+|  | Incremental | 0.926 | 0.926 | 521 | 521 |
+| Total QALYs (per patient) |  |  |  |  |  |
+|  | New intervention | 2.08 | 2.08 | 1.319 | 1.319 |
+|  | Standard of care | 1.154 | 1.154 | 0.794 | 0.794 |
+|  | Incremental | 0.926 | 0.926 | 0.525 | 0.525 |
+| ICER |  | 126,451 | 124,059 | 149,782 | 94,570 |
 
-Cost-effectiveness model results by scenario
+Cost-effectiveness model results by scenario {.table}
 
 ## Future single cohort ICER
 
@@ -853,6 +864,7 @@ calculate the ICER, given the incremental QALYs we have already
 observed - and which are immune from pricing effects.
 
 ``` r
+
 # Times at which to plot ICER
 gtimes <- round((0:(2*thoz))/cycle_years/2)
 # SOC drug acquisition costs
@@ -933,6 +945,7 @@ vertical dashed lines mark the timings of the LoEs of first the standard
 of care, and then the new treatment.
 
 ``` r
+
 # Plot real and nominal present value over time
 ggplot(ds,
   aes(x = evaldate, y = ICER, color=Type)) +

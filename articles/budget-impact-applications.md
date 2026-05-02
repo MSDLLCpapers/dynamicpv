@@ -49,6 +49,7 @@ We had the following assumptions concerning patient uptake.
 First we load the packages necessary for this vignette.
 
 ``` r
+
 library(dplyr)
 library(lubridate)
 library(heemod)
@@ -60,6 +61,7 @@ The underlying health economic model is built as described in
 We require additional coding for the budget impact evaluation.
 
 ``` r
+
 # BIM settings
 bi_horizon_yrs <- 5
 bi_horizon_wks <- round(bi_horizon_yrs / cycle_years)
@@ -92,6 +94,7 @@ horizon of the budget impact model. First we calculate costs with the
 SoC, in the ‘world without’ the new intervention.
 
 ``` r
+
 # World without new intervention
 
 # SoC, drug acquisition costs
@@ -125,6 +128,7 @@ Next we calculate costs with the new treatment, in the ‘world with’ the
 new intervention.
 
 ``` r
+
 # World with: SoC are zero
 
 # New intervention, drug acquisition costs
@@ -156,6 +160,7 @@ The budgetary costs in the world with the new intervention are
 in costs.
 
 ``` r
+
 # Budget impact
 bi1 <- budget_with1 - budget_wout1
 summary(bi1)
@@ -178,6 +183,7 @@ static manner. As before, we first calculate the costs of the SoC in the
 ‘world without’ the new intervention.
 
 ``` r
+
 # World without new intervention
 
 # SoC, drug acquisition costs
@@ -205,6 +211,7 @@ Next we derive the costs of the new intervention, in the ‘world with’
 the new intervention.
 
 ``` r
+
 # World with: SoC are zero
 
 # New intervention, drug acquisition costs
@@ -230,6 +237,7 @@ The budgetary costs in the world with the new intervention are
 difference.
 
 ``` r
+
 # Budget impact
 bi2 <- budget_with2 - budget_wout2
 summary(bi2)
@@ -253,6 +261,7 @@ budget impact model. Let us use that function to calculate budgetary
 costs for the world without the new intervention.
 
 ``` r
+
 # World without new intervention
 # SoC, drug acquisition costs
 wout3_soc_daqcost <- wout1_soc_daqcost
@@ -269,6 +278,7 @@ Let us now calculate the budgetary costs in the world with the new
 intervention.
 
 ``` r
+
 # World with
 
 # SoC, drug acquisition costs
@@ -322,6 +332,7 @@ flagging for the user the different uptake vectors being used for
 different present value calculations.
 
 ``` r
+
 # The uptake vector for the new intervention is long
 length(trim_vec(uptake_new))
 #> [1] 1044
@@ -337,6 +348,7 @@ patients being treated with the SoC, and \$23,456,610 in respect of the
 costs of 419 patients being treated with the SoC.
 
 ``` r
+
 # Budget impact
 bi3_soc <- budget_with3_soc - budget_wout3_soc
 #> Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length
@@ -364,6 +376,7 @@ either `prices_dyn_soc` or `prices_dyn_new` for the drug acquisition
 costs. We will keep other costs unchanged.
 
 ``` r
+
 # World without new intervention
 
 # SoC, drug acquisition costs
@@ -389,6 +402,7 @@ Let us now calculate the budgetary costs in the world with the new
 intervention.
 
 ``` r
+
 # World with
 
 # SoC, drug acquisition costs
@@ -429,6 +443,7 @@ the SoC, and \$34,359,885 in respect of the costs of 419 patients being
 treated with the new treatment.
 
 ``` r
+
 # Budget impact
 bi4_soc <- budget_with4_soc - budget_wout4_soc
 #> Warning in addprod(e1, e2, mult = -1): Uptake vectors differ in length
@@ -449,25 +464,25 @@ The total budget impact is \$17,019,592, representing an increase of
 
 ### Summary
 
-|                                |                     | Scenario 1  | Scenario 2  | Scenario 3 | Scenario 4 |
-|:-------------------------------|:--------------------|-------------|-------------|------------|------------|
-| Dynamic pricing?               |                     | No          | Yes         | No         | Yes        |
-| Dynamic uptake?                |                     | No          | No          | Yes        | Yes        |
-| World without new intervention |                     |             |             |            |            |
-|                                | Standard of Care    | 12,923,366  | 11,516,132  | 12,923,366 | 11,516,132 |
-|                                | New intervention    | 0           | 0           | 0          | 0          |
-|                                | Total               | 12,923,366  | 11,516,132  | 12,923,366 | 11,516,132 |
-| World with new intervention    |                     |             |             |            |            |
-|                                | Standard of Care    | 0           | 0           | 3,508,178  | 3,460,107  |
-|                                | New intervention    | 32,381,279  | 34,359,885  | 23,456,610 | 25,075,617 |
-|                                | Total               | 32,381,279  | 34,359,885  | 26,964,789 | 25,075,617 |
-| Budget impact                  |                     |             |             |            |            |
-|                                | Standard of Care    | -12,923,366 | -11,516,132 | -9,415,187 | -8,056,025 |
-|                                | New intervention    | 32,381,279  | 34,359,885  | 23,456,610 | 25,075,617 |
-|                                | Absolute impact     | 19,457,914  | 22,843,753  | 14,041,423 | 17,019,592 |
-|                                | Relative impact (%) | 151%        | 198%        | 109%       | 148%       |
+|  |  | Scenario 1 | Scenario 2 | Scenario 3 | Scenario 4 |
+|:---|:---|----|----|----|----|
+| Dynamic pricing? |  | No | Yes | No | Yes |
+| Dynamic uptake? |  | No | No | Yes | Yes |
+| World without new intervention |  |  |  |  |  |
+|  | Standard of Care | 12,923,366 | 11,516,132 | 12,923,366 | 11,516,132 |
+|  | New intervention | 0 | 0 | 0 | 0 |
+|  | Total | 12,923,366 | 11,516,132 | 12,923,366 | 11,516,132 |
+| World with new intervention |  |  |  |  |  |
+|  | Standard of Care | 0 | 0 | 3,508,178 | 3,460,107 |
+|  | New intervention | 32,381,279 | 34,359,885 | 23,456,610 | 25,075,617 |
+|  | Total | 32,381,279 | 34,359,885 | 26,964,789 | 25,075,617 |
+| Budget impact |  |  |  |  |  |
+|  | Standard of Care | -12,923,366 | -11,516,132 | -9,415,187 | -8,056,025 |
+|  | New intervention | 32,381,279 | 34,359,885 | 23,456,610 | 25,075,617 |
+|  | Absolute impact | 19,457,914 | 22,843,753 | 14,041,423 | 17,019,592 |
+|  | Relative impact (%) | 151% | 198% | 109% | 148% |
 
-Budget Impact model result by scenario
+Budget Impact model result by scenario {.table style="width:100%;"}
 
 ## Discussion
 

@@ -29,6 +29,7 @@ The package should shortly be available on
 from here is simplest, once available.
 
 ``` r
+
 # CRAN installation - when available
 install.packages("dynamicpv")
 ```
@@ -37,6 +38,7 @@ You can install the development version of *dynamicpv* from
 [GitHub](https://github.com/) as follows.
 
 ``` r
+
 # Install devtools package if not already installed
 install.packages("devtools")
 
@@ -49,6 +51,7 @@ on the [package website](https://msdllcpapers.github.io/dynamicpv/) or
 by instead running the following.
 
 ``` r
+
 devtools::install_github("MSDLLCpapers/dynamicpv", build_vignettes=TRUE)
 ```
 
@@ -56,6 +59,7 @@ You should then load the package, alongside some other packages used
 here.
 
 ``` r
+
 # Load the dynamicpv package
 library(dynamicpv)
 

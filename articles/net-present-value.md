@@ -16,6 +16,7 @@ pricing, and dynamic (or static) uptake. We consider:
 First let us load the packages we will use for this vignette.
 
 ``` r
+
 library(dynamicpv)
 ```
 
@@ -33,6 +34,7 @@ to doing this. Nevertheless, let us start there, since it helps
 understand functionality. We use a simple cashflow and \\i=3\\\\.
 
 ``` r
+
 # A simple cashflow
 cashflow <- c(110, 120, 130, 140, 150)
 
@@ -54,8 +56,10 @@ The calculation can be presented in a table as follows.
 | Total | 650      |                       | 610     |
 
 Calculation of NPV from a simple cashflow and given discount rate
+{.table}
 
 ``` r
+
 # Run dynpv calculation with full output
 pv1 <- dynpv(payoffs=cashflow, discrate=disc)
 
@@ -72,6 +76,7 @@ The present value of this cashflow is 610. The same result could have
 been found more easily than invoking this package.
 
 ``` r
+
 sum(vt1 * cashflow)
 #> [1] 610.4352
 ```
@@ -101,6 +106,7 @@ We then combine these inputs with
 to calculate the NPV.
 
 ``` r
+
 # Set up price index
 pinfl <- 0.01
 pindex <- (1+pinfl)^(0:4)
@@ -125,6 +131,7 @@ summary(pv2)
 The NPV of 592 could still have been calculated using base R functions.
 
 ``` r
+
 # Compare with more base calculations
 vt2 <- (1+nomdisc)^(-1 * (0:4))
 sum(vt2 * cashflow * pindex)
@@ -141,6 +148,7 @@ index. In this simple example, let us assume that the underlying price
 of the resource reduces to half its original value from the fourth year.
 
 ``` r
+
 # Revise the price index to be 0.5 from year 4
 pindex[4:5] <- 0.5
 pindex
@@ -162,6 +170,7 @@ With this dynamic pricing change, the NPV has reduced by 128, from 592
 to 464. The corresponding base R code is shown below.
 
 ``` r
+
 # Compare with more base calculations
 sum(vt2 * cashflow * pindex)
 #> [1] 463.6326
@@ -175,23 +184,25 @@ Suppose we have one new patient each year, and we wish to calculate the
 total NPV in a time horizon of 5 years. Now we have a payoff triangle as
 follows.
 
-| Time  | Cashflow 1 | Cashflow 2   | Cashflow 3   | Cashflow 4   | Cashflow 5   | Cashflow Sum | Discount factor       | Product |
-|-------|------------|--------------|--------------|--------------|--------------|--------------|-----------------------|---------|
-| \\t\\ | \\c_t\\    | \\c\_{t-1}\\ | \\c\_{t-2}\\ | \\c\_{t-3}\\ | \\c\_{t-4}\\ |              | \\v^t = (1+i)^{1-t}\\ |         |
-| 1     | 110        | \-           | \-           | \-           | \-           | 110          | 1                     | 110     |
-| 2     | 120        | 110          | \-           | \-           | \-           | 230          | 0.971                 | 223     |
-| 3     | 130        | 120          | 110          | \-           | \-           | 360          | 0.943                 | 339     |
-| 4     | 140        | 130          | 120          | 110          | \-           | 500          | 0.915                 | 458     |
-| 5     | 150        | 140          | 130          | 120          | 110          | 650          | 0.888                 | 578     |
-| Total | 650        |              |              |              |              |              |                       | 1,708   |
+| Time | Cashflow 1 | Cashflow 2 | Cashflow 3 | Cashflow 4 | Cashflow 5 | Cashflow Sum | Discount factor | Product |
+|----|----|----|----|----|----|----|----|----|
+| \\t\\ | \\c_t\\ | \\c\_{t-1}\\ | \\c\_{t-2}\\ | \\c\_{t-3}\\ | \\c\_{t-4}\\ |  | \\v^t = (1+i)^{1-t}\\ |  |
+| 1 | 110 | \- | \- | \- | \- | 110 | 1 | 110 |
+| 2 | 120 | 110 | \- | \- | \- | 230 | 0.971 | 223 |
+| 3 | 130 | 120 | 110 | \- | \- | 360 | 0.943 | 339 |
+| 4 | 140 | 130 | 120 | 110 | \- | 500 | 0.915 | 458 |
+| 5 | 150 | 140 | 130 | 120 | 110 | 650 | 0.888 | 578 |
+| Total | 650 |  |  |  |  |  |  | 1,708 |
 
 Calculation of NPV from a simple cashflow and given discount rate
+{.table}
 
 With
 [`dynamicpv::dynpv()`](https://MSDLLCpapers.github.io/dynamicpv/reference/dynpv.md),
 we just update the `uptakes` argument.
 
 ``` r
+
 # Uptake vector is (1, 1, 1, 1, 1)
 uptakes1 <- rep(1, 5)
 
@@ -211,6 +222,7 @@ There are 5 patients with a total NPV of 1,708, which equates to 342 on
 average per patient. This can also be calculated in base R.
 
 ``` r
+
 sum(vt1 * cumsum(cashflow))
 #> [1] 1707.723
 ```
@@ -230,6 +242,7 @@ increases by one each year. The weighting given to cashflow 1 would then
 be \\1/(1+2+3+4+5)=6.67\\ %.
 
 ``` r
+
 # Uptake vector is (1, 2, 3, 4, 5)
 uptakes2 <- 1:5
 
@@ -250,6 +263,7 @@ average per patient. Verifying this result in base R also becomes more
 complicated.
 
 ``` r
+
 # Verifying total NPV is now more complicated
 checkpv <- rep(0, 5)
 for (i in 1:5) {
@@ -268,6 +282,7 @@ replaces what would be rather more complicated with base functions, even
 in this toy example.
 
 ``` r
+
 # NPV calculation
 pv6 <- dynpv(payoffs=cashflow, uptakes=uptakes2, prices=pindex, discrate=nomdisc)
 
